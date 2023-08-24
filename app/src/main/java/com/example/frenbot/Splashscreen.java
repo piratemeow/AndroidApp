@@ -31,9 +31,14 @@ public class Splashscreen extends AppCompatActivity {
         greet2=findViewById(R.id.greet2);
         lottiesplash=findViewById(R.id.lottiesplash);
 
-        greet.animate().translationY(450).setDuration(2000).setStartDelay(0);
-        greet2.animate().translationY(-370).setDuration(2000).setStartDelay(0);
-       // lottiesplash.animate().translationY(4000).setDuration(2500).setStartDelay(5000);
+        greet.setTranslationY(0);
+        greet2.setTranslationY(0);
+        float v=0;
+        greet.setAlpha(v);
+        greet2.setAlpha(v);
+
+        greet.animate().translationY(200).alpha(1).setDuration(1000).setStartDelay(400).start();
+        greet2.animate().translationY(-200).alpha(1).setDuration(1000).setStartDelay(400).start();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -49,6 +54,6 @@ public class Splashscreen extends AppCompatActivity {
                 finish();
                 //blink.setVisibility(View.VISIBLE);
             }
-        },6000);
+        },3000);
     }
 }

@@ -19,7 +19,7 @@
             android:textSize="50dp"
             android:textColor="@color/CornflowerBlue"
             android:textStyle="bold"
-            android:fontFamily="@font/olivia"
+
             android:layout_margin="20dp"
             android:layout_centerHorizontal="true"
             />
@@ -29,10 +29,10 @@
             android:text="TEAM: OtterCat"
             android:gravity="center"
             android:background="@color/White"
-            android:textSize="20dp"
+            android:textSize="35dp"
             android:textColor="@color/CornflowerBlue"
             android:textStyle="bold"
-            android:fontFamily="@font/olivia"
+
             android:layout_margin="20dp"
             android:layout_centerHorizontal="true"
             />
@@ -68,7 +68,7 @@
                     android:textSize="20dp"
                     android:textColor="@color/CornflowerBlue"
                     android:textStyle="bold"
-                    android:fontFamily="@font/olivia"
+
                     android:layout_centerHorizontal="true"
                     />
                 <TextView
@@ -79,7 +79,7 @@
                     android:textSize="20dp"
                     android:textColor="@color/CornflowerBlue"
                     android:textStyle="bold"
-                    android:fontFamily="@font/olivia"
+
                     android:layout_centerHorizontal="true"
                     />
 
@@ -125,7 +125,6 @@
                         android:textSize="20dp"
                         android:textColor="@color/CornflowerBlue"
                         android:textStyle="bold"
-                        android:fontFamily="@font/olivia"
                         android:layout_centerHorizontal="true"
                         />
                     <TextView
@@ -136,7 +135,6 @@
                         android:textSize="20dp"
                         android:textColor="@color/CornflowerBlue"
                         android:textStyle="bold"
-                        android:fontFamily="@font/olivia"
                         android:layout_centerHorizontal="true"
                         />
 
@@ -183,7 +181,6 @@
                         android:textSize="20dp"
                         android:textColor="@color/CornflowerBlue"
                         android:textStyle="bold"
-                        android:fontFamily="@font/olivia"
                         android:layout_centerHorizontal="true"
                         />
                     <TextView
@@ -194,7 +191,6 @@
                         android:textSize="20dp"
                         android:textColor="@color/CornflowerBlue"
                         android:textStyle="bold"
-                        android:fontFamily="@font/olivia"
                         android:layout_centerHorizontal="true"
                         />
 
