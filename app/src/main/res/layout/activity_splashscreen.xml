@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     tools:context=".Splashscreen">
 
 
@@ -17,16 +18,16 @@
         android:fontFamily="@font/olivia"
         android:layout_margin="20dp"
         android:textSize="50dp"/>
-
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottiesplash"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_centerInParent="true"
-        android:elevation="5dp"
         android:transitionName="logoimg"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/splash" />
+        android:id="@+id/lottiesplash"
+        android:elevation="5dp"
+        app:lottie_rawRes="@raw/splash"
+        />
 
     <TextView
         android:id="@+id/greet2"
@@ -40,8 +41,8 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/olivia"
         android:gravity="center"
-        android:text="F r e n b o T\nh e r e"
-        android:textColor="#FFEB3B"
+        android:text="StudyBuddy"
+        android:textColor="#03A9F4"
         android:textSize="40dp"
         android:transitionName="logotxt" />
 </RelativeLayout>

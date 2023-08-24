@@ -8,7 +8,7 @@
     android:background="#F3C848">
     <ImageView
         android:id="@+id/img"
-        android:src="@drawable/calender"
+        android:src="@drawable/calendar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
