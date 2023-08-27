@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.util.Calendar;
 
 public class Create_event extends AppCompatActivity {
-    TextInputEditText event_name, desc,note;
+    TextInputEditText event_name, desc,note,location;
     Button date, create;
     private int year, month,day;
     private int event_year=0, event_month=0, event_day=0;
@@ -29,6 +29,7 @@ public class Create_event extends AppCompatActivity {
         desc = findViewById(R.id.Description);
         note = findViewById(R.id.Note);
         date = findViewById(R.id.Date);
+        location = findViewById(R.id.location);
         create = findViewById(R.id.Create_event);
 
         Calendar calender = Calendar.getInstance();
@@ -46,9 +47,15 @@ public class Create_event extends AppCompatActivity {
 
 
         create.setOnClickListener(new View.OnClickListener() {
+
+            String event_nam, event_des , event_loc , event_note;
             @Override
             public void onClick(View v) {
-                if (!event_name.getText().toString().isEmpty() && !desc.getText().toString().isEmpty()
+                event_nam = event_name.getText().toString();
+                event_des = desc.getText().toString();
+                event_loc = location.getText().toString();
+                event_note = note.getText().toString();
+                if (!event_nam.isEmpty() && !event_des.isEmpty()
                 && event_month!=0){
                     Intent intent = new Intent(Intent.ACTION_INSERT);
                     intent.setData(CalendarContract.Events.CONTENT_URI);
