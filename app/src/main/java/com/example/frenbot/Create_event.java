@@ -9,17 +9,30 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ktx.Firebase;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Create_event extends AppCompatActivity {
-    TextInputEditText event_name, desc,note;
+    TextInputEditText event_name, desc,note,location;
     Button date, create;
     private int year, month,day;
     private int event_year=0, event_month=0, event_day=0;
+
+    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +42,12 @@ public class Create_event extends AppCompatActivity {
         desc = findViewById(R.id.Description);
         note = findViewById(R.id.Note);
         date = findViewById(R.id.Date);
+        location = findViewById(R.id.location);
         create = findViewById(R.id.Create_event);
+
+        db = FirebaseFirestore.getInstance();
+
+
 
         Calendar calender = Calendar.getInstance();
         year = calender.get(Calendar.YEAR);
@@ -46,17 +64,32 @@ public class Create_event extends AppCompatActivity {
 
 
         create.setOnClickListener(new View.OnClickListener() {
+
+            String event_nam, event_des , event_loc , event_note;
             @Override
             public void onClick(View v) {
-                if (!event_name.getText().toString().isEmpty() && !desc.getText().toString().isEmpty()
-                && event_month!=0){
+                event_nam = event_name.getText().toString();
+                event_des = desc.getText().toString();
+                event_loc = location.getText().toString();
+                event_note = note.getText().toString();
+
+                Map<String, Object> events = new HashMap<>();
+                events.put("title",event_nam);
+                events.put("description",event_des);
+                events.put("location",event_loc);
+                events.put("note",event_note);
+
+
+                if (!event_nam.isEmpty() && !event_des.isEmpty()
+                && !event_loc.isEmpty() && event_month!=0){
+
+
                     Intent intent = new Intent(Intent.ACTION_INSERT);
                     intent.setData(CalendarContract.Events.CONTENT_URI);
-                    intent.putExtra(CalendarContract.Events.TITLE,event_name.getText().toString());
-                    intent.putExtra(CalendarContract.Events.DESCRIPTION,desc.getText().toString());
+                    intent.putExtra(CalendarContract.Events.TITLE,event_nam);
+                    intent.putExtra(CalendarContract.Events.DESCRIPTION,event_des);
+                    intent.putExtra(CalendarContract.Events.EVENT_LOCATION,event_loc);
                     intent.putExtra(CalendarContract.Events.ALL_DAY,true);
-                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,100000000);
-
 
 
                     if (intent.resolveActivity(getPackageManager())!=null){
@@ -65,6 +98,23 @@ public class Create_event extends AppCompatActivity {
                     else{
                         Toast.makeText(Create_event.this, "No calender app", Toast.LENGTH_SHORT).show();
                     }
+
+                    db.collection("Events")
+                            .add(events)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    Toast.makeText(Create_event.this, "Successfully created the event", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Create_event.this, "Failed to create the event", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+
                 }
                 else {
                     Toast.makeText(Create_event.this, "Please fill the necessary fields", Toast.LENGTH_SHORT).show();
