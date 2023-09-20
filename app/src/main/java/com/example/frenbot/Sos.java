@@ -241,14 +241,14 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
                                     makeCall(callNumber);
 
                                     // Check if messageNumber and callNumber are not empty
-//                                    if (!messageNumber.isEmpty() && !callNumber.isEmpty()) {
-//                                        sendSms(messageNumber, message);
-//                                        makeCall(callNumber);
-//                                    } else if(!messageNumber.isEmpty()){
-//                                        sendSms(messageNumber, message);
-//                                    } else if(!callNumber.isEmpty()) {
-//                                        makeCall(callNumber);
-//                                    }
+                                    if (!messageNumber.isEmpty() && !callNumber.isEmpty()) {
+                                        sendSms(messageNumber, message);
+                                        makeCall(callNumber);
+                                    } else if(!messageNumber.isEmpty()){
+                                        sendSms(messageNumber, message);
+                                    } else if(!callNumber.isEmpty()) {
+                                        makeCall(callNumber);
+                                    }
 
                                     // Do something with the retrieved data (e.g., display it)
                                 } else {
