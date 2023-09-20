@@ -5,6 +5,7 @@ import androidx.core.app.ActivityOptionsCompat;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -43,14 +44,22 @@ public class Splashscreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
+                Intent loginIntent = new Intent(getApplicationContext(), Login.class);
+                Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
 //                startActivity(intent);
 //                finish();
-
+                SharedPreferences sharedPreferences =  getSharedPreferences(Login.Auth_Pref, 0);
                 //Pair pair1=new Pair<View,String>(blink,"logoimg");
                 //Pair pair2=new Pair<View,String>(greet2,"logotxt");
+                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+
                 ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this, android.util.Pair.create(lottiesplash,"logoimg"),android.util.Pair.create(greet2,"logotxt"));
-                startActivity(intent,options.toBundle());
+
+                if(!isLoggedIn) {
+                    startActivity(loginIntent, options.toBundle());
+                }else {
+                    startActivity(homeIntent, options.toBundle());
+                }
                 finish();
                 //blink.setVisibility(View.VISIBLE);
             }

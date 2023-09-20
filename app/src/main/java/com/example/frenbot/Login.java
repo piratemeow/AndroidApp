@@ -1,6 +1,7 @@
 package com.example.frenbot;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +27,8 @@ public class Login extends AppCompatActivity {
     LinearLayout ll;
     FirebaseAuth mAuth;
     float v=0;
+
+    public static String Auth_Pref = "current_user";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +85,10 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     // Sign in success, update UI with the signed-in user's information
+                                    SharedPreferences sharedPreferences = getSharedPreferences(Auth_Pref, 0);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putBoolean("isLoggedIn",true);
+                                    editor.commit();
                                     Toast.makeText(Login.this, "Login successful.",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Login.this, MainActivity.class);
