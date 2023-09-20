@@ -27,4 +27,32 @@
         <item>TSC</item>
         <item>CSEDU Premises</item>
     </string-array>
+
+    <string-array name="course">
+        <item>Fundamentals of Computers and Computing</item>
+        <item>Discrete Mathematics</item>
+        <item>Electrical Circuits</item>
+        <item>Chemistry</item>
+        <item>Differential and Integral Calculus</item>
+        <item>Fundamentals of Programming </item>
+        <item>Digital Logic Design </item>
+    </string-array>
+    <string-array name="id">
+        <item>CSE-1101 </item>
+        <item>CSE-1102 </item>
+        <item>EEE-1103</item>
+        <item>CHE-1104</item>
+        <item>MATH-1105</item>
+        <item>CSE-1201</item>
+        <item>EEE-1202</item>
+    </string-array>
+    <string-array name="instructor">
+        <item>MRR</item>
+        <item>SP</item>
+        <item>Ismat Rahman</item>
+        <item>Susan</item>
+        <item>Tanvir Rumi</item>
+        <item>MRR</item>
+        <item>Hasan Babu</item>
+    </string-array>
 </resources>
