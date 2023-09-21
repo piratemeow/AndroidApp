@@ -1,9 +1,14 @@
 package com.example.frenbot;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -21,15 +26,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Sos extends AppCompatActivity {
+public class Sos extends AppCompatActivity implements SensorEventListener {
 
     static final int CONTACT_PICKER_REQUEST_MESSAGE = 1;
     static final int CONTACT_PICKER_REQUEST_CALL = 2;
@@ -40,6 +53,11 @@ public class Sos extends AppCompatActivity {
     EditText messageEditText;
     FirebaseAuth mAuth;
 
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private boolean isAccelerometerAvailable, isNotFirstTime = false;
+    private float currentX, currentY, currentZ, lastX, lastY, lastZ, shakeThreshold = 10f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +67,14 @@ public class Sos extends AppCompatActivity {
         callNumberEditText = findViewById(R.id.callNumberEditText);
         messageEditText = findViewById(R.id.messageEditText);
         mAuth = FirebaseAuth.getInstance();
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
+            isAccelerometerAvailable = true;
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        } else {
+            isAccelerometerAvailable = false;
+        }
 
         checkAndRequestPermissions();
 
@@ -113,39 +139,44 @@ public class Sos extends AppCompatActivity {
 
     public void sendMessageAndCall(View view) {
         System.out.println("calling the handler");
-        String messageNumber = messageNumberEditText.getText().toString();
-        String callNumber = callNumberEditText.getText().toString();
 
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             String userId = user.getUid();
 
-            DatabaseReference usersRef = FirebaseDatabase.getInstance("https://frenbot-ebcbe-default-rtdb.asia-southeast1.firebasedatabase.app")
-                    .getReference("users");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference sosCollection = db.collection("SosInfo");
+
+            DocumentReference sosDocument = sosCollection.document(userId);
+
+            // Store user data in the document.
             SOSInfo sosInfo = new SOSInfo(messageEditText.getText().toString(), messageNumberEditText.getText().toString(), callNumberEditText.getText().toString());
 
-            usersRef.child(userId).child("sosInfo").setValue(sosInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(Sos.this, "database updated", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Sos.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            Map<String, Object> sosInfoMap = new HashMap<>();
+            sosInfoMap.put("message", sosInfo.getMessage());
+            sosInfoMap.put("messageNumber", sosInfo.getMessageNumber());
+            sosInfoMap.put("callNumber", sosInfo.getCallNumber());
+            // Add other user-related data as needed.
+
+            // Set the data in the document.
+            sosDocument.set(sosInfoMap)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // User data has been successfully added.
+                            Toast.makeText(Sos.this, "database updated", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Handle the error.
+                            Toast.makeText(Sos.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
         }
 
-
-        // Check if messageNumber and callNumber are not empty
-        if (!messageNumber.isEmpty() && !callNumber.isEmpty()) {
-            sendSms(messageNumber, messageEditText.getText().toString());
-            makeCall(callNumber);
-        } else if(!messageNumber.isEmpty()){
-            sendSms(messageNumber, messageEditText.getText().toString());
-        } else if(!callNumber.isEmpty()) {
-            makeCall(callNumber);
-        }
     }
 
     private void sendSms(String phoneNumber, String message) {
@@ -168,6 +199,102 @@ public class Sos extends AppCompatActivity {
         } catch (SecurityException e) {
             Toast.makeText(this, "Call initiation failed", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        currentX = sensorEvent.values[0];
+        currentY = sensorEvent.values[1];
+        currentZ = sensorEvent.values[2];
+
+        if(isNotFirstTime) {
+            float xDiff = Math.abs(currentX - lastX);
+            float yDiff = Math.abs(currentY - lastY);
+            float zDiff = Math.abs(currentZ - lastZ);
+
+            if((xDiff > shakeThreshold && yDiff > shakeThreshold) || (xDiff > shakeThreshold && zDiff > shakeThreshold) || (zDiff > shakeThreshold && yDiff > shakeThreshold)) {
+                // Get the current user's UID from Firebase Authentication
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser != null) {
+                    String uid = currentUser.getUid();
+
+                    // Reference to the "sosInfo" collection
+                    CollectionReference sosInfoCollection = FirebaseFirestore.getInstance().collection("SosInfo");
+
+                    // Query the collection for the document with the user's UID
+                    sosInfoCollection.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    // Document exists, you can retrieve the data here
+                                    String message = document.getString("message");
+                                    String messageNumber = document.getString("messageNumber");
+                                    String callNumber = document.getString("callNumber");
+
+                                    System.out.println(message);
+                                    System.out.println(messageNumber);
+                                    System.out.println(callNumber);
+
+                                    makeCall(callNumber);
+
+                                    // Check if messageNumber and callNumber are not empty
+                                    if (!messageNumber.isEmpty() && !callNumber.isEmpty()) {
+                                        sendSms(messageNumber, message);
+                                        makeCall(callNumber);
+                                    } else if(!messageNumber.isEmpty()){
+                                        sendSms(messageNumber, message);
+                                    } else if(!callNumber.isEmpty()) {
+                                        makeCall(callNumber);
+                                    }
+
+                                    // Do something with the retrieved data (e.g., display it)
+                                } else {
+                                    // Document does not exist for this user
+                                    // You can handle this case as needed
+                                    System.out.println("Document does not exist for this user");
+                                }
+                            } else {
+                                // Handle errors
+                                Exception e = task.getException();
+                                if (e != null) {
+                                    // Log or display the error
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                }
+
+            }
+        }
+
+        lastX = currentX;
+        lastY = currentY;
+        lastZ = currentZ;
+        isNotFirstTime = true;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isAccelerometerAvailable) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(isAccelerometerAvailable) {
+            sensorManager.unregisterListener(this);
         }
     }
 }

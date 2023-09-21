@@ -17,6 +17,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.ktx.Firebase;
@@ -31,11 +33,14 @@ public class Create_event extends AppCompatActivity {
     Button date, create;
     private int year, month,day;
     private int event_year=0, event_month=0, event_day=0;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
 
     FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_create_event);
 
         event_name = findViewById(R.id.EventName);
@@ -78,6 +83,8 @@ public class Create_event extends AppCompatActivity {
                 events.put("description",event_des);
                 events.put("location",event_loc);
                 events.put("note",event_note);
+                events.put("date",event_day+"-"+event_month+"-"+event_year);
+                events.put("creator",user.toString());
 
 
                 if (!event_nam.isEmpty() && !event_des.isEmpty()

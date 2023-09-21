@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -21,6 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Signup extends AppCompatActivity {
 
@@ -105,22 +113,39 @@ public class Signup extends AppCompatActivity {
                                     if (user != null) {
                                         String userId = user.getUid();
 
-                                        DatabaseReference usersRef = FirebaseDatabase.getInstance("https://frenbot-ebcbe-default-rtdb.asia-southeast1.firebasedatabase.app")
-                                                .getReference("users");
+                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                        CollectionReference usersCollection = db.collection("Users");
 
-                                        usersRef.child(userId).child("username").setValue(userName).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Toast.makeText(Signup.this, "Account created and database updated.", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(Signup.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                } else {
-                                                    Toast.makeText(Signup.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                                    Log.e("DatabaseUpdate", "Failed to update database: " + task.getException());
-                                                }
-                                            }
-                                        });
+                                        DocumentReference userDocument = usersCollection.document(userId);
+
+                                        // Store user data in the document.
+                                        Map<String, Object> userData = new HashMap<>();
+                                        userData.put("name", userName);
+                                        // Add other user-related data as needed.
+
+                                        // Set the data in the document.
+                                        userDocument.set(userData)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        // User data has been successfully added.
+                                                        Toast.makeText(Signup.this, "Account created and database updated.", Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(Signup.this, MainActivity.class);
+                                                        startActivity(intent);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        // Handle the error.
+                                                        Toast.makeText(Signup.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                        Log.e("DatabaseUpdate", "Failed to update database: " + task.getException());
+                                                    }
+
+                                                });
+
+
+
                                     }
                                 } else {
                                     // If sign in fails, display a message to the user.
