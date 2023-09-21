@@ -29,6 +29,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class add_course extends AppCompatActivity {
     TextInputEditText courseName, courseID, instructor, desc;
@@ -74,9 +75,10 @@ public class add_course extends AppCompatActivity {
                     String userId = user.getUid();
 
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    CollectionReference courseCollection = db.collection("Course");
+                    DocumentReference userDocument = db.collection("Users").document(userId);
+                    CollectionReference coursesCollection = userDocument.collection("Course");
 
-                    DocumentReference courseDocument = courseCollection.document(userId);
+                    String courseId = UUID.randomUUID().toString();
 
                     Map<String, Object> course = new HashMap<>();
                     course.put("title",title);
@@ -84,7 +86,8 @@ public class add_course extends AppCompatActivity {
                     course.put("instructor",instruct);
                     course.put("id",id);
 
-                    courseDocument.set(course)
+                    coursesCollection.document(courseId)
+                            .set(course)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

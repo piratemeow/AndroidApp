@@ -17,6 +17,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.ktx.Firebase;
@@ -25,14 +28,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Create_event extends AppCompatActivity {
     TextInputEditText event_name, desc,note,location;
     Button date, create;
     private int year, month,day;
     private int event_year=0, event_month=0, event_day=0;
-
-    FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +46,6 @@ public class Create_event extends AppCompatActivity {
         date = findViewById(R.id.Date);
         location = findViewById(R.id.location);
         create = findViewById(R.id.Create_event);
-
-        db = FirebaseFirestore.getInstance();
 
 
 
@@ -73,11 +73,11 @@ public class Create_event extends AppCompatActivity {
                 event_loc = location.getText().toString();
                 event_note = note.getText().toString();
 
-                Map<String, Object> events = new HashMap<>();
-                events.put("title",event_nam);
-                events.put("description",event_des);
-                events.put("location",event_loc);
-                events.put("note",event_note);
+//                Map<String, Object> events = new HashMap<>();
+//                events.put("title",event_nam);
+//                events.put("description",event_des);
+//                events.put("location",event_loc);
+//                events.put("note",event_note);
 
 
                 if (!event_nam.isEmpty() && !event_des.isEmpty()
@@ -99,21 +99,57 @@ public class Create_event extends AppCompatActivity {
                         Toast.makeText(Create_event.this, "No calender app", Toast.LENGTH_SHORT).show();
                     }
 
-                    db.collection("Events")
-                            .add(events)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(Create_event.this, "Successfully created the event", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Create_event.this, "Failed to create the event", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    FirebaseUser user = mAuth.getCurrentUser();
 
+                    if (user != null) {
+                        String userId = user.getUid();
 
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        DocumentReference userDocument = db.collection("Users").document(userId);
+                        CollectionReference eventsCollection = userDocument.collection("Events");
+
+                        String eventId = UUID.randomUUID().toString();
+
+                        Map<String, Object> events = new HashMap<>();
+                        events.put("title", event_nam);
+                        events.put("description", event_des);
+                        events.put("location", event_loc);
+                        events.put("note", event_note);
+
+                        eventsCollection.document(eventId)
+                                .set(events)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // User data has been successfully added.
+                                        Toast.makeText(Create_event.this, "event created", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle the error.
+                                        Toast.makeText(Create_event.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
+
+//                        db.collection("Events")
+//                                .add(events)
+//                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                                    @Override
+//                                    public void onSuccess(DocumentReference documentReference) {
+//                                        Toast.makeText(Create_event.this, "Successfully created the event", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                                    @Override
+//                                    public void onFailure(@NonNull Exception e) {
+//                                        Toast.makeText(Create_event.this, "Failed to create the event", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                });
+
+                    }
 
                 }
                 else {
