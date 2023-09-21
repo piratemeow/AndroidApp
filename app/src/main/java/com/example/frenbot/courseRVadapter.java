@@ -1,5 +1,5 @@
 package com.example.frenbot;
-
+//
 //import android.view.LayoutInflater;
 //import android.view.View;
 //import android.view.ViewGroup;
@@ -11,46 +11,46 @@ package com.example.frenbot;
 //import java.util.ArrayList;
 //import android.content.Context;
 //
-//public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHolder> {
+//public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyViewHolder> {
 //
 //    Context context;
-//    ArrayList<eventmodel> eventmodels;
+//    ArrayList<coursemodel> coursemodels;
 //
-//    public eventRVadapter(Context context, ArrayList<eventmodel> eventmodels){
+//    public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels){
 //        this.context=context;
-//        this.eventmodels=eventmodels;
+//        this.coursemodels=coursemodels;
 //    }
 //    @NonNull
 //    @Override
-//    public eventRVadapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//    public courseRVadapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //        LayoutInflater inflater= LayoutInflater.from(context);
-//        View view=inflater.inflate(R.layout.event_rview,parent,false);
+//        View view=inflater.inflate(R.layout.courses_rview,parent,false);
 //
-//        return new eventRVadapter.MyViewHolder(view);
+//        return new courseRVadapter.MyViewHolder(view);
 //    }
 //
 //    @Override
-//    public void onBindViewHolder(@NonNull eventRVadapter.MyViewHolder holder, int position) {
+//    public void onBindViewHolder(@NonNull courseRVadapter.MyViewHolder holder, int position) {
 //
-//        holder.title.setText(eventmodels.get(position).getTitle());
-//        holder.time.setText(eventmodels.get(position).getTime());
-//        holder.place.setText(eventmodels.get(position).getPlace());
+//        holder.course.setText(coursemodels.get(position).getcourse());
+//        holder.id.setText(coursemodels.get(position).getid());
+//        holder.instructor.setText(coursemodels.get(position).getinstructor());
 //    }
 //
 //    @Override
 //    public int getItemCount() {
-//        return eventmodels.size();
+//        return coursemodels.size();
 //    }
 //
 //    public static class MyViewHolder extends RecyclerView.ViewHolder{
 //
-//        TextView title,time,place;
+//        TextView course,id,instructor;
 //
 //        public MyViewHolder(@NonNull View itemView) {
 //            super(itemView);
-//            title=itemView.findViewById(R.id.title);
-//            time=itemView.findViewById(R.id.duration);
-//            place=itemView.findViewById(R.id.venue);
+//            course=itemView.findViewById(R.id.course);
+//            id=itemView.findViewById(R.id.id);
+//            instructor=itemView.findViewById(R.id.instructor);
 //        }
 //    }
 //}
@@ -64,6 +64,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -74,19 +76,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHolder> {
+public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyViewHolder> {
 
     private Context context;
-    private ArrayList<eventmodel> eventmodels;
+    private ArrayList<coursemodel> coursemodels;
 
-    public eventRVadapter(Context context, ArrayList<eventmodel> eventmodels) {
+    public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels) {
         this.context = context;
-        this.eventmodels = eventmodels;
+        this.coursemodels = coursemodels;
         fetchDataFromFirestore(); // Fetch data from Firestore when the adapter is created
     }
 
     private void fetchDataFromFirestore() {
-
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -95,19 +96,19 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference userDocument = db.collection("Users").document(userId);
-            CollectionReference eventsCollection = userDocument.collection("Events");
+            CollectionReference coursesCollection = userDocument.collection("Course");
 
-            eventsCollection.get()
+            coursesCollection.get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            eventmodels.clear(); // Clear existing data before adding new data
+                            coursemodels.clear(); // Clear existing data before adding new data
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String title = document.getString("title");
-                                String time = document.getString("time");
-                                String place = document.getString("location");
+                                String course = document.getString("title");
+                                String id = document.getString("id");
+                                String instructor = document.getString("instructor");
 
-                                eventmodel eventModel = new eventmodel(title, time, place);
-                                eventmodels.add(eventModel);
+                                coursemodel courseModel = new coursemodel(course, id, instructor);
+                                coursemodels.add(courseModel);
                             }
                             notifyDataSetChanged(); // Notify the RecyclerView to refresh
                         } else {
@@ -115,39 +116,37 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
                         }
                     });
         }
-
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.event_rview, parent, false);
+        View view = inflater.inflate(R.layout.courses_rview, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.title.setText(eventmodels.get(position).getTitle());
-        holder.time.setText(eventmodels.get(position).getTime());
-        holder.place.setText(eventmodels.get(position).getPlace());
+        holder.course.setText(coursemodels.get(position).getcourse());
+        holder.id.setText(coursemodels.get(position).getid());
+        holder.instructor.setText(coursemodels.get(position).getinstructor());
     }
 
     @Override
     public int getItemCount() {
-        return eventmodels.size();
+        return coursemodels.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView title, time, place;
+        TextView course, id, instructor;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.title);
-            time = itemView.findViewById(R.id.duration);
-            place = itemView.findViewById(R.id.venue);
+            course = itemView.findViewById(R.id.course);
+            id = itemView.findViewById(R.id.id);
+            instructor = itemView.findViewById(R.id.instructor);
         }
     }
 }
-
