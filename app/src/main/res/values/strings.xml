@@ -55,4 +55,18 @@
         <item>MRR</item>
         <item>Hasan Babu</item>
     </string-array>
+
+    <string name="finance">Master Your Money</string>
+    <string name="academic">Your Academic Journey</string>
+    <string name="event">Discover Local Events</string>
+    <string name="sos">Emergency Assistance</string>
+
+    <string name="des_finance">Gain financial literacy and achieve your money goals with easy-to-use expense tracking and savings planning features.</string>
+    <string name="des_academic"> Simplify your learning experience with intuitive tools for note-taking, collaboration, and assignment management.</string>
+    <string name="des_event">Stay informed about the latest happenings in your area and receive event notifications all tailored to your interests to ensure you never miss an opportunity</string>
+    <string name="des_sos"> Count on our app for fast response times, real-time tracking, and vital resources during critical situations.</string>
+
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="start_btn">Lets Get Started</string>
 </resources>

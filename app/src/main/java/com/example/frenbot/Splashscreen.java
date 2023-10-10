@@ -21,6 +21,7 @@ import kotlin.Pair;
 public class Splashscreen extends AppCompatActivity {
     TextView greet,greet2;
     LottieAnimationView lottiesplash;
+    SharedPreferences Onboarding;
 
 
     @Override
@@ -42,10 +43,26 @@ public class Splashscreen extends AppCompatActivity {
         greet2.animate().translationY(-200).alpha(1).setDuration(1000).setStartDelay(400).start();
 
         new Handler().postDelayed(new Runnable() {
+            Intent homeIntent;
+
             @Override
             public void run() {
+
+
                 Intent loginIntent = new Intent(getApplicationContext(), Login.class);
-                Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                Onboarding=getSharedPreferences("Onboarding",MODE_PRIVATE);
+                boolean isFirstTime = Onboarding.getBoolean("firsttime",true);
+                if(isFirstTime){
+                    SharedPreferences.Editor editor=Onboarding.edit();
+                    editor.putBoolean("firsttime",false);
+                    editor.commit();
+
+                     homeIntent = new Intent(getApplicationContext(), Onboarding.class);
+                }
+                else{
+                     homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                }
+
 //                startActivity(intent);
 //                finish();
                 SharedPreferences sharedPreferences =  getSharedPreferences(Login.Auth_Pref, 0);
