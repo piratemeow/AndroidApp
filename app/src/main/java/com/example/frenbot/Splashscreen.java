@@ -52,6 +52,7 @@ public class Splashscreen extends AppCompatActivity {
                 Intent onBoardingIntent = new Intent(getApplicationContext(), Onboarding.class);
                 startActivity(onBoardingIntent);
                 Onboarding=getSharedPreferences("Onboarding",MODE_PRIVATE);
+                finish();
 //                boolean isFirstTime = Onboarding.getBoolean("firsttime",true);
 //                if(isFirstTime){
 //                    SharedPreferences.Editor editor=Onboarding.edit();
