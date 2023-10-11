@@ -3,7 +3,9 @@ package com.example.frenbot;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Onboarding extends AppCompatActivity {
 
@@ -19,6 +22,8 @@ public class Onboarding extends AppCompatActivity {
     SliderAdapter sliderAdapter;
     TextView[] dot;
     Button startbtn;
+
+    Button next;
     int curpos;
 
     @Override
@@ -34,9 +39,25 @@ public class Onboarding extends AppCompatActivity {
         adddots(0);
         viewPager.addOnPageChangeListener(changeListener);
         startbtn=findViewById(R.id.startbtn);
+        next=findViewById(R.id.next);
+
+        startbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skip(view);
+            }
+        });
     }
     public void skip(View view){
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent loginIntent = new Intent(getApplicationContext(), Login.class);
+        SharedPreferences sharedPreferences =  getSharedPreferences(Login.Auth_Pref, 0);
+        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+        if(!isLoggedIn) {
+            startActivity(loginIntent);
+        }else {
+            startActivity(homeIntent);
+        }
         finish();
     }
     public void next(View view){
@@ -87,7 +108,9 @@ public class Onboarding extends AppCompatActivity {
                 startbtn.setVisibility(View.VISIBLE);
 
             }
-
+            if(position == 3) {
+                next.setVisibility(View.INVISIBLE);
+            }
 
         }
 
