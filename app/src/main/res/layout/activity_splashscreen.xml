@@ -12,7 +12,7 @@
         android:id="@+id/greet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="H e l l o !"
+        android:text="TEAM"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/olivia"
@@ -41,7 +41,7 @@
         android:layout_marginBottom="20dp"
         android:fontFamily="@font/olivia"
         android:gravity="center"
-        android:text="StudyBuddy"
+        android:text="OtterCat"
         android:textColor="#03A9F4"
         android:textSize="40dp"
         android:transitionName="logotxt" />
