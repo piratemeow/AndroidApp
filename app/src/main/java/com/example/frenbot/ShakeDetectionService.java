@@ -1,6 +1,8 @@
 package com.example.frenbot;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -13,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.widget.Toast;
@@ -201,20 +204,42 @@ public class ShakeDetectionService extends Service implements SensorEventListene
         }
     }
 
+//    private Notification createNotification() {
+//        Intent notificationIntent = new Intent(this, Sos.class); // Replace YourActivity with your desired activity.
+//
+//
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+//        // Create and configure your notification
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "sos_channel")
+//                .setContentTitle("Sos Service Channel")
+//                .setContentText("Running in the background")
+//                .setSmallIcon(R.drawable.notification)
+//                .setContentIntent(pendingIntent);
+//
+//        // You can customize the notification further if needed
+//
+//        return builder.build();
+//    }
     private Notification createNotification() {
-        Intent notificationIntent = new Intent(this, Sos.class); // Replace YourActivity with your desired activity.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "sos_channel";
+            String channelName = "SOS Channel";
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW);
 
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
 
+        Intent notificationIntent = new Intent(this, Sos.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-        // Create and configure your notification
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "sos_channel")
-                .setContentTitle("Sos Service Channel")
+                .setContentTitle("SOS Service")
                 .setContentText("Running in the background")
                 .setSmallIcon(R.drawable.notification)
                 .setContentIntent(pendingIntent);
 
-        // You can customize the notification further if needed
-
         return builder.build();
     }
+
 }
