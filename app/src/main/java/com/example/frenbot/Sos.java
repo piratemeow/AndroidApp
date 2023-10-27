@@ -226,27 +226,12 @@ class SOSInfo {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public String getMessageNumber() {
         return messageNumber;
-    }
-
-    public void setMessageNumber(String messageNumber) {
-        this.messageNumber = messageNumber;
     }
 
     public String getCallNumber() {
         return callNumber;
     }
 
-    public void setCallNumber(String callNumber) {
-        this.callNumber = callNumber;
-    }
-
-    public SOSInfo() {
-    }
 }
-
