@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,13 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
         callNumberEditText = findViewById(R.id.callNumberEditText);
         messageEditText = findViewById(R.id.messageEditText);
         mAuth = FirebaseAuth.getInstance();
+        ImageView back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
@@ -78,7 +86,7 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
 
         checkAndRequestPermissions();
 
-        Button selectMessageNumberButton = findViewById(R.id.selectMessageNumberButton);
+        ImageView selectMessageNumberButton = findViewById(R.id.selectMessageNumberButton);
         selectMessageNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +94,7 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
             }
         });
 
-        Button selectCallNumberButton = findViewById(R.id.selectCallNumberButton);
+        ImageView selectCallNumberButton = findViewById(R.id.selectCallNumberButton);
         selectCallNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

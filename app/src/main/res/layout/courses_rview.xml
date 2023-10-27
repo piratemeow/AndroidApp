@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="215dp"
         android:layout_margin="15dp"
         app:cardCornerRadius="20dp"
         android:elevation="10dp"
@@ -18,13 +18,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:background="@drawable/bg"
+            android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/course"
-                android:fontFamily="@font/olivia"
+                android:fontFamily="@font/notoserifblack"
                 android:textSize="30dp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:layout_margin="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

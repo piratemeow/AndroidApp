@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,13 @@ public class add_course extends AppCompatActivity {
         courseID = findViewById(R.id.course_id);
         desc = findViewById(R.id.Description);
         instructor = findViewById(R.id.instructor);
+        ImageView back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         add = findViewById(R.id.add);
 

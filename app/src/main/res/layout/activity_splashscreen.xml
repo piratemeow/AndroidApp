@@ -12,12 +12,15 @@
         android:id="@+id/greet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="H e l l o !"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/olivia"
-        android:layout_margin="20dp"
-        android:textSize="50dp"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/notoserifblack"
+        android:text="Hello !"
+        android:textSize="50dp" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottiesplash"
@@ -39,7 +42,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:fontFamily="@font/olivia"
+        android:fontFamily="@font/notoserifblack"
         android:gravity="center"
         android:text="StudyBuddy"
         android:textColor="#03A9F4"

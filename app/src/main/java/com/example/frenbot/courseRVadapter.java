@@ -78,12 +78,14 @@ import java.util.ArrayList;
 
 public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyViewHolder> {
 
+    private final RCViewInterface rcViewInterface;
     private Context context;
     private ArrayList<coursemodel> coursemodels;
 
-    public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels) {
+    public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels,RCViewInterface rcViewInterface) {
         this.context = context;
         this.coursemodels = coursemodels;
+        this.rcViewInterface=rcViewInterface;
         fetchDataFromFirestore(); // Fetch data from Firestore when the adapter is created
     }
 
@@ -123,7 +125,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.courses_rview, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view,rcViewInterface);
     }
 
     @Override
@@ -142,11 +144,23 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
 
         TextView course, id, instructor;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, RCViewInterface rcViewInterface) {
             super(itemView);
             course = itemView.findViewById(R.id.course);
             id = itemView.findViewById(R.id.id);
             instructor = itemView.findViewById(R.id.instructor);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(rcViewInterface!=null){
+                        int pos=getAdapterPosition();
+
+                        if(pos!=RecyclerView.NO_POSITION){
+                            rcViewInterface.OnItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }
