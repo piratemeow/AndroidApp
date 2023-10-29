@@ -34,8 +34,7 @@ import java.util.UUID;
 
 public class Course_Files extends AppCompatActivity {
     private static final int REQUEST_CODE = 123;
-//    FirebaseStorage storage;
-//    StorageReference storageRef;
+    private static final int finish_code = 436;
     public static String StoragePath;
     public static Uri FileUri;
     public static String Type;
@@ -50,8 +49,6 @@ public class Course_Files extends AppCompatActivity {
         String uuid = getIntent().getStringExtra("uuid");
         addFile=findViewById(R.id.add_File);
 
-//        storage = FirebaseStorage.getInstance();
-//        storageRef = storage.getReference();
 
         addFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +87,13 @@ public class Course_Files extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == finish_code) {
+            if (resultCode == RESULT_OK) {
+                // The child activity has finished, so finish the parent activity
+                finish();
+            }
+        }
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             // The user has selected a file
@@ -136,67 +140,8 @@ public class Course_Files extends AppCompatActivity {
                     Course_Files.Type = type;
                     Course_Files.StoragePath = storagePath;
                     Intent intent = new Intent(Course_Files.this, AddCourseFile.class);
-//                    intent.putExtra("type", type);
-//                    intent.putExtra("fileUri", fileUri);
-//                    intent.putExtra("storagePath", storagePath);
-//                    intent.putExtra("fileExtension", fileExtension);
-                    startActivity(intent);
-
-
-//                    if(AddCourseFile.fileName != null) {
-//                        StorageReference fileRef = storageRef.child(storagePath + UUID.randomUUID().toString() + "/" + AddCourseFile.fileName + "." + fileExtension);
-//                        UploadTask uploadTask = fileRef.putFile(fileUri);
-//                        uploadTask.addOnSuccessListener(taskSnapshot -> {
-//                            fileRef.getDownloadUrl().addOnSuccessListener(downloadUrl -> {
-//                                String downloadURL = downloadUrl.toString();
-//                                // Now you can save the downloadURL to Firestore or perform other actions.
-//                                // File uploaded successfully
-//                                Toast.makeText(this, "File uploaded successfully", Toast.LENGTH_SHORT).show();
-//
-//                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//                                FirebaseUser user = mAuth.getCurrentUser();
-//                                if (user != null) {
-//                                    String userId = user.getUid();
-//
-//                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                                    DocumentReference userDocument = db.collection("Users").document(userId);
-//                                    CollectionReference coursesCollection = userDocument.collection("Course");
-//
-//                                    DocumentReference courseDocument = coursesCollection.document(Course_Details.courseUUID);
-//                                    CollectionReference courseFileCollection = courseDocument.collection("courseFileCollection");
-//
-//                                    String fileId = UUID.randomUUID().toString();
-//                                    Map<String, String> courseFile = new HashMap<>();
-//                                    courseFile.put("title", AddCourseFile.fileName);
-//                                    courseFile.put("downloadUri", downloadURL);
-//                                    courseFile.put("uuid", fileId);
-//                                    courseFile.put("fileType", type);
-//
-//                                    DocumentReference newLinkDocument = courseFileCollection.document(fileId);
-//
-//                                    newLinkDocument.set(courseFile)
-//                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                                @Override
-//                                                public void onSuccess(Void aVoid) {
-//                                                    // Document was successfully added to the courseLinkCollection
-//                                                    Toast.makeText(Course_Files.this, "url stored", Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            })
-//                                            .addOnFailureListener(new OnFailureListener() {
-//                                                @Override
-//                                                public void onFailure(@NonNull Exception e) {
-//                                                    // Handle the error
-//                                                }
-//                                            });
-//
-//                                }
-//                            });
-//
-//                        }).addOnFailureListener(exception -> {
-//                            // Handle unsuccessful uploads
-//                            Toast.makeText(this, "Upload failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-//                        });
-//                    }
+//                    startActivity(intent);
+                    startActivityForResult(intent, finish_code);
                 }
             }
         }

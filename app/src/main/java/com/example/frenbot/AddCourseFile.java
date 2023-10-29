@@ -41,10 +41,6 @@ public class AddCourseFile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_course_file);
-//        String type = getIntent().getStringExtra("type");
-//        String storagePath = getIntent().getStringExtra("storagePath");
-//        String fileExtension = getIntent().getStringExtra("fileExtension");
-//        Uri fileUri = getIntent().getParcelableExtra("fileUri");
         String type = Course_Files.Type;
         String storagePath = Course_Files.StoragePath;
         String fileExtension = Course_Files.FileExtension;
@@ -122,6 +118,9 @@ public class AddCourseFile extends AppCompatActivity {
                                             Toast.makeText(AddCourseFile.this, "url stored", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(AddCourseFile.this, Course_Files.class);
                                             startActivity(intent);
+
+                                            Intent intent2 = new Intent();
+                                            setResult(RESULT_OK, intent2);
                                             finish();
                                         }
                                     })
@@ -138,7 +137,6 @@ public class AddCourseFile extends AppCompatActivity {
                 }).addOnFailureListener(exception -> {
                     // Handle unsuccessful uploads
                 });
-                finish();
             }
         });
     }
