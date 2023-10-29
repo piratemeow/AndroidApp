@@ -1,80 +1,63 @@
 package com.example.frenbot;
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.ktx.Firebase;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
-public class add_course extends AppCompatActivity {
-    TextInputEditText courseName, courseID, instructor, desc;
+public class AddCourseLink extends AppCompatActivity {
     Button add;
+    TextInputEditText link, title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_course);
-
-        courseName = findViewById(R.id.course);
-        courseID = findViewById(R.id.course_id);
-        desc = findViewById(R.id.Description);
-        instructor = findViewById(R.id.instructor);
+        setContentView(R.layout.activity_add_course_link);
+        String uuid = getIntent().getStringExtra("uuid");
         ImageView back=findViewById(R.id.back);
+        link = findViewById(R.id.link);
+        title = findViewById(R.id.title);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-
         add = findViewById(R.id.add);
 
         add.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                String title, id, description, instruct;
-                title = String.valueOf(courseName.getText());
-                id = String.valueOf(courseID.getText());
-                description = String.valueOf(desc.getText());
-                instruct = String.valueOf(instructor.getText());
+                String titleString, linkText;
+                titleString = String.valueOf(title.getText());
+                linkText = String.valueOf(link.getText());
 
-                if(TextUtils.isEmpty(title)) {
-                    Toast.makeText(add_course.this,"Enter course title",Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(titleString)) {
+                    Toast.makeText(AddCourseLink.this,"Enter link",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(id)) {
-                    Toast.makeText(add_course.this,"Enter course id",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(instruct)) {
-                    Toast.makeText(add_course.this,"Enter course instructor",Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(linkText)) {
+                    Toast.makeText(AddCourseLink.this,"Enter link title",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -87,42 +70,37 @@ public class add_course extends AppCompatActivity {
                     DocumentReference userDocument = db.collection("Users").document(userId);
                     CollectionReference coursesCollection = userDocument.collection("Course");
 
-                    String courseId = UUID.randomUUID().toString();
+                    DocumentReference courseDocument = coursesCollection.document(Course_Details.courseUUID);
+                    CollectionReference courseLinkCollection = courseDocument.collection("courseLinkCollection");
 
-                    Map<String, Object> course = new HashMap<>();
-                    course.put("title",title);
-                    course.put("description",description);
-                    course.put("instructor",instruct);
-                    course.put("id",id);
-                    course.put("uuid",courseId);
+                    String linkId = UUID.randomUUID().toString();
+                    Map<String, String> courseLink = new HashMap<>();
+                    courseLink.put("title",titleString);
+                    courseLink.put("link",linkText);
+                    courseLink.put("linkId", linkId);
 
-                    coursesCollection.document(courseId)
-                            .set(course)
+                    DocumentReference newLinkDocument = courseLinkCollection.document(linkId);
+
+                    newLinkDocument.set(courseLink)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    // User data has been successfully added.
-                                    Toast.makeText(add_course.this, "course added", Toast.LENGTH_SHORT).show();
-
+                                    // Document was successfully added to the courseLinkCollection
+                                    Toast.makeText(AddCourseLink.this,"Link added",Toast.LENGTH_SHORT).show();
                                     finish();
-                                    Intent intent = new Intent(add_course.this, Academia.class);
+                                    Intent intent = new Intent(AddCourseLink.this, Course_Links.class);
                                     startActivity(intent);
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    // Handle the error.
-                                    Toast.makeText(add_course.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    // Handle the error
                                 }
-
                             });
 
                 }
             }
         });
-
-
     }
-
 }

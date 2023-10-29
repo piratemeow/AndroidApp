@@ -80,7 +80,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
 
     private final RCViewInterface rcViewInterface;
     private Context context;
-    private ArrayList<coursemodel> coursemodels;
+    static ArrayList<coursemodel> coursemodels;
 
     public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels,RCViewInterface rcViewInterface) {
         this.context = context;
@@ -108,8 +108,9 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                                 String course = document.getString("title");
                                 String id = document.getString("id");
                                 String instructor = document.getString("instructor");
+                                String uuid = document.getString("uuid");
 
-                                coursemodel courseModel = new coursemodel(course, id, instructor);
+                                coursemodel courseModel = new coursemodel(course, id, instructor, uuid);
                                 coursemodels.add(courseModel);
                             }
                             notifyDataSetChanged(); // Notify the RecyclerView to refresh
@@ -163,4 +164,5 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
             });
         }
     }
+
 }

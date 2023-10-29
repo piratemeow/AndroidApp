@@ -23,7 +23,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         setContentView(R.layout.activity_academia);
         RecyclerView recyclerView=findViewById(R.id.rcview);
 
-        setupeventmodels();
+//        setupeventmodels();
 
         courseRVadapter rVadapter =new courseRVadapter(this,coursemodels,this);
         recyclerView.setAdapter(rVadapter);
@@ -40,20 +40,21 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         add_course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
                 Intent intent = new Intent(Academia.this,add_course.class);
                 startActivity(intent);
             }
         });
     }
-    private void setupeventmodels(){
-        String[] course= getResources().getStringArray(R.array.course);
-        String[] id= getResources().getStringArray(R.array.id);
-        String[] instructor= getResources().getStringArray(R.array.instructor);
-
-        for(int i=0;i<course.length;i++){
-            coursemodels.add(new coursemodel(course[i],id[i],instructor[i]));
-        }
-    }
+//    private void setupeventmodels(){
+//        String[] course= getResources().getStringArray(R.array.course);
+//        String[] id= getResources().getStringArray(R.array.id);
+//        String[] instructor= getResources().getStringArray(R.array.instructor);
+//
+//        for(int i=0;i<course.length;i++){
+//            coursemodels.add(new coursemodel(course[i],id[i],instructor[i]));
+//        }
+//    }
 
     @Override
     public void OnItemClick(int position) {
@@ -61,6 +62,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         intent.putExtra("title",coursemodels.get(position).getcourse());
         intent.putExtra("id",coursemodels.get(position).getid());
         intent.putExtra("instructor",coursemodels.get(position).getinstructor());
+        intent.putExtra("uuid",coursemodels.get(position).getUuid());
 
         startActivity(intent);
 

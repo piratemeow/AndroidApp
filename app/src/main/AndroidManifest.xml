@@ -33,6 +33,12 @@
             android:name=".Course_Details"
             android:exported="false" />
         <activity
+            android:name=".Course_Links"
+            android:exported="false" />
+        <activity
+            android:name=".AddCourseLink"
+            android:exported="false" />
+        <activity
             android:name=".Event_Details"
             android:exported="false" />
         <activity

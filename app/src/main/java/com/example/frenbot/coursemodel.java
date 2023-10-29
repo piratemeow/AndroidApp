@@ -4,12 +4,14 @@ public class coursemodel {
     String course;
     String id;
     String instructor;
+    String uuid;
 
 
-    public coursemodel(String course, String id, String instructor) {
+    public coursemodel(String course, String id, String instructor, String uuid) {
         this.course = course;
         this.id = id;
         this.instructor = instructor;
+        this.uuid = uuid;
     }
 
     public String getinstructor() {
@@ -24,4 +26,7 @@ public class coursemodel {
         return course;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
 }
