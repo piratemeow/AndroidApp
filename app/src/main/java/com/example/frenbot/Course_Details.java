@@ -31,6 +31,7 @@ public class Course_Details extends AppCompatActivity {
         TextView instructor=findViewById(R.id.instructor);
         ImageView back=findViewById(R.id.back);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView links=findViewById(R.id.links);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView files=findViewById(R.id.files);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,6 +42,14 @@ public class Course_Details extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Course_Details.this, Course_Links.class);
+                intent.putExtra("uuid", uuid);
+                startActivity(intent);
+            }
+        });
+        files.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Course_Details.this, Course_Files.class);
                 intent.putExtra("uuid", uuid);
                 startActivity(intent);
             }

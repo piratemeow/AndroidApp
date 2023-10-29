@@ -89,14 +89,14 @@ public class LinkAdapter extends RecyclerView.Adapter<LinkAdapter.MyViewHolder> 
         return linkItems.size();
     }
 
-    public static class LinkViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTextView;
-
-        public LinkViewHolder(@NonNull View itemView) {
-            super(itemView);
-            titleTextView = itemView.findViewById(R.id.linkTitleTextView);
-        }
-    }
+//    public static class LinkViewHolder extends RecyclerView.ViewHolder {
+//        TextView titleTextView;
+//
+//        public LinkViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            titleTextView = itemView.findViewById(R.id.linkTitleTextView);
+//        }
+//    }
 
     private void fetchDataFromFirestore() {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

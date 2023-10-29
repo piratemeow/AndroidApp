@@ -113,7 +113,7 @@
             android:id="@+id/links"
             android:textColor="@color/White"
             android:textSize="35dp"
-            android:text="Your Links"
+            android:text="Your Links(Click here)"
             app:layout_constraintTop_toBottomOf="@id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -121,8 +121,9 @@
             android:padding="10dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/White"
+            android:id="@+id/files"
             android:textSize="35dp"
-            android:text="Your Links"
+            android:text="Your Files(Click here)"
             app:layout_constraintTop_toBottomOf="@id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
