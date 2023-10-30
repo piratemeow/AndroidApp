@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Orange"
+    android:background="@color/lightBlack"
     tools:context=".Events">
     <LinearLayout
         android:id="@+id/lev"
@@ -85,7 +85,7 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/archive"
                 android:src="@drawable/archive"
-                android:backgroundTint="#292828"
+                android:backgroundTint="@color/Orange"
                 app:tint="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_course"
                 android:src="@drawable/add"
-                android:backgroundTint="#292828"
+                android:backgroundTint="@color/Orange"
                 app:tint="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

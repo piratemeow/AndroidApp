@@ -2,8 +2,10 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Frenbot" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/DodgerBlue</item>
-        <item name="colorSecondary">#F3C848</item>
+        <item name="colorPrimaryDark">@color/DarkOrange</item>
+        <item name="colorPrimary">@color/Orange</item>
+        <item name="colorSecondary">#292828</item>
+<!--        <item name="colorSecondary">#1B1919</item>-->
 
 
 
