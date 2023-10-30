@@ -5,13 +5,16 @@ public class coursemodel {
     String id;
     String instructor;
     String uuid;
+    String desc;
+    boolean archive;
 
-
-    public coursemodel(String course, String id, String instructor, String uuid) {
+    public coursemodel(String course, String id, String instructor, String uuid, String desc, boolean archive) {
         this.course = course;
         this.id = id;
         this.instructor = instructor;
         this.uuid = uuid;
+        this.desc = desc;
+        this.archive = archive;
     }
 
     public String getinstructor() {
@@ -26,7 +29,14 @@ public class coursemodel {
         return course;
     }
 
+    public String getDesc() {
+        return desc;
+    }
     public String getUuid() {
         return uuid;
+    }
+
+    public boolean getArchive() {
+        return archive;
     }
 }

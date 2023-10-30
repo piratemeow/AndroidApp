@@ -39,8 +39,8 @@ public class Splashscreen extends AppCompatActivity {
         greet.setAlpha(v);
         greet2.setAlpha(v);
 
-        greet.animate().translationY(200).alpha(1).setDuration(1000).setStartDelay(400).start();
-        greet2.animate().translationY(-200).alpha(1).setDuration(1000).setStartDelay(400).start();
+        greet.animate().translationY(80).alpha(1).setDuration(1000).setStartDelay(400).start();
+        greet2.animate().translationY(-80).alpha(1).setDuration(1000).setStartDelay(400).start();
 
         new Handler().postDelayed(new Runnable() {
             Intent homeIntent;

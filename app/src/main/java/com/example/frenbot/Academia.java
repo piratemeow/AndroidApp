@@ -2,19 +2,33 @@ package com.example.frenbot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class Academia extends AppCompatActivity implements RCViewInterface {
+    private static final int finish_code = 436;
     FloatingActionButton add_course;
     ArrayList<coursemodel> coursemodels=new ArrayList<>();
     @Override
@@ -22,8 +36,6 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_academia);
         RecyclerView recyclerView=findViewById(R.id.rcview);
-
-//        setupeventmodels();
 
         courseRVadapter rVadapter =new courseRVadapter(this,coursemodels,this);
         recyclerView.setAdapter(rVadapter);
@@ -40,21 +52,29 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         add_course.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 Intent intent = new Intent(Academia.this,add_course.class);
-                startActivity(intent);
+                intent.putExtra("title", "");
+                intent.putExtra("desc", "");
+                intent.putExtra("id", "");
+                intent.putExtra("instructor", "");
+                intent.putExtra("uuid", "");
+                intent.putExtra("archive", false);
+                startActivityForResult(intent, finish_code);
             }
         });
     }
-//    private void setupeventmodels(){
-//        String[] course= getResources().getStringArray(R.array.course);
-//        String[] id= getResources().getStringArray(R.array.id);
-//        String[] instructor= getResources().getStringArray(R.array.instructor);
-//
-//        for(int i=0;i<course.length;i++){
-//            coursemodels.add(new coursemodel(course[i],id[i],instructor[i]));
-//        }
-//    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == finish_code) {
+            if (resultCode == RESULT_OK) {
+                // The child activity has finished, so finish the parent activity
+                finish();
+            }
+        }
+    }
 
     @Override
     public void OnItemClick(int position) {
@@ -67,4 +87,95 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         startActivity(intent);
 
     }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = courseRVadapter.MyViewHolder.position; // Get the clicked position
+        System.out.println(coursemodels.get(position).getcourse());
+        System.out.println(item);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        CollectionReference coursesCollection = null;
+        DocumentReference userDocument;
+        FirebaseFirestore db;
+        if (user != null) {
+            String userId = user.getUid();
+
+            db = FirebaseFirestore.getInstance();
+            userDocument = db.collection("Users").document(userId);
+            coursesCollection = userDocument.collection("Course");
+        }
+
+        switch (item.getItemId()) {
+            case 1: // Edit
+                // Handle the "Edit" action here using the 'position'
+                Intent intent = new Intent(Academia.this,add_course.class);
+                intent.putExtra("title", coursemodels.get(position).getcourse());
+                intent.putExtra("desc", coursemodels.get(position).getDesc());
+                intent.putExtra("id", coursemodels.get(position).getid());
+                intent.putExtra("instructor", coursemodels.get(position).getinstructor());
+                intent.putExtra("uuid", coursemodels.get(position).getUuid());
+                intent.putExtra("archive", coursemodels.get(position).getArchive());
+                startActivityForResult(intent, finish_code);
+                return true;
+
+            case 3: // Archive
+                // Handle the "Archive" action here using the 'position'
+                Map<String, Object> course = new HashMap<>();
+                course.put("title", coursemodels.get(position).getcourse());
+                course.put("instructor", coursemodels.get(position).getinstructor());
+                course.put("id", coursemodels.get(position).getid());
+                course.put("uuid", coursemodels.get(position).getUuid());
+                course.put("description", coursemodels.get(position).getDesc());
+                course.put("archive", true);
+
+                coursesCollection.document(coursemodels.get(position).getUuid())
+                        .set(course)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // User data has been successfully added.
+                                Toast.makeText(Academia.this, "course archived", Toast.LENGTH_SHORT).show();
+                                finish();
+                                Intent intent = new Intent(Academia.this, Academia.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle the error.
+                                Toast.makeText(Academia.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
+                return true;
+
+            case 2: // Delete
+                // Handle the "Delete" action here using the 'position'
+                DocumentReference courseDocument = coursesCollection.document(coursemodels.get(position).getUuid());
+                courseDocument.delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Document was successfully deleted
+                                finish();
+                                Intent intent = new Intent(Academia.this, Academia.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle the error
+                            }
+                        });
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
 }

@@ -110,8 +110,10 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                                 String id = document.getString("id");
                                 String instructor = document.getString("instructor");
                                 String uuid = document.getString("uuid");
+                                String desc = document.getString("description");
+                                boolean archive = Boolean.TRUE.equals(document.getBoolean("archive"));
 
-                                coursemodel courseModel = new coursemodel(course, id, instructor, uuid);
+                                coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive);
                                 coursemodels.add(courseModel);
                             }
                             notifyDataSetChanged(); // Notify the RecyclerView to refresh
@@ -143,9 +145,10 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
     }
 
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener,View.OnLongClickListener {
 
         TextView course, id, instructor;
+        public static int position;
 
         public MyViewHolder(@NonNull View itemView, RCViewInterface rcViewInterface) {
             super(itemView);
@@ -153,6 +156,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
             id = itemView.findViewById(R.id.id);
             instructor = itemView.findViewById(R.id.instructor);
             itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnLongClickListener(this);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -170,8 +174,19 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.add(0, 1, 0, "Edit");
-            contextMenu.add(0, 2, 1, "Archive");
-            contextMenu.add(0, 3, 1, "Delete");
+            contextMenu.add(0, 2, 1, "Delete");
+            contextMenu.add(0, 3, 1, "Archive");
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                MyViewHolder.position = position;
+                System.out.println(position);
+                return false; // Consume the long click event
+            }
+            return false;
         }
     }
 
