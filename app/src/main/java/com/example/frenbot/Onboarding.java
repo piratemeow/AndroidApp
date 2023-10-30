@@ -78,7 +78,7 @@ public class Onboarding extends AppCompatActivity {
             dots.addView(dot[i]);
         }
         if(dot.length>0){
-            dot[position].setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+            dot[position].setTextColor(getResources().getColor(android.R.color.holo_orange_light));
         }
     }
 

@@ -8,7 +8,7 @@
     tools:context=".Event_Details">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical" >
         <LinearLayout
             android:id="@+id/ll"
@@ -100,9 +100,20 @@
     </LinearLayout>
 
 
+
     </LinearLayout>
 
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/create_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/Orange"
+        app:maxImageSize="30dp"
+        app:tint="@null"
+        android:layout_margin="20dp"
+        android:src="@drawable/edit"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,14 @@
     android:orientation="vertical"
     android:background="@color/AntiqueWhite"
     tools:context=".Sos">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
     <LinearLayout
         android:id="@+id/lev"
         android:orientation="horizontal"
@@ -149,7 +156,8 @@
 
 
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

@@ -1,12 +1,14 @@
 package com.example.frenbot;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,33 +16,35 @@ public class MainActivity extends AppCompatActivity {
     ImageView sosimg;
     ImageView eventimg;
     ImageView academiaimg;
-    ConstraintLayout about_us;
+    LinearLayout about_us;
+    CardView finacecard,academiacard,eventcard,soscard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sosimg = findViewById(R.id.sosimg);
-        eventimg = findViewById(R.id.eventimg);
-        academiaimg = findViewById(R.id.academiaimg);
+        finacecard=findViewById(R.id.finacecard);;
+        soscard = findViewById(R.id.soscard);
+        eventcard = findViewById(R.id.eventcard);
+        academiacard = findViewById(R.id.academiacard);
         about_us = findViewById(R.id.aboutus);
 
-        sosimg.setOnClickListener(new View.OnClickListener() {
+        soscard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Sos.class);
                 startActivity(intent);
             }
         });
-        eventimg.setOnClickListener(new View.OnClickListener() {
+        eventcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Events.class);
                 startActivity(intent);
             }
         });
-        academiaimg.setOnClickListener(new View.OnClickListener() {
+        academiacard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Academia.class);

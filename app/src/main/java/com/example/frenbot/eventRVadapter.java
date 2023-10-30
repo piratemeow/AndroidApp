@@ -1,5 +1,6 @@
 package com.example.frenbot;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
         return eventmodels.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener{
 
         TextView title,time,place;
 
@@ -53,7 +54,7 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
             title=itemView.findViewById(R.id.title);
             time=itemView.findViewById(R.id.duration);
             place=itemView.findViewById(R.id.venue);
-
+            itemView.setOnCreateContextMenuListener(this);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -65,6 +66,13 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
                     }
                 }
             });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.setHeaderTitle("Options");
+            contextMenu.add(0, 1, 0, "Edit");
+            contextMenu.add(0, 3, 1, "Delete");
         }
     }
 }

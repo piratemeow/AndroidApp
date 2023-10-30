@@ -56,6 +56,7 @@ package com.example.frenbot;
 //}
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -140,7 +141,8 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
         return coursemodels.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener {
 
         TextView course, id, instructor;
 
@@ -149,6 +151,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
             course = itemView.findViewById(R.id.course);
             id = itemView.findViewById(R.id.id);
             instructor = itemView.findViewById(R.id.instructor);
+            itemView.setOnCreateContextMenuListener(this);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -161,6 +164,13 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                     }
                 }
             });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(0, 1, 0, "Edit");
+            contextMenu.add(0, 2, 1, "Archive");
+            contextMenu.add(0, 3, 1, "Delete");
         }
     }
 }
