@@ -1,6 +1,8 @@
 package com.example.frenbot;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +30,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class Academia extends AppCompatActivity implements RCViewInterface {
+    public static boolean isArchive;
     private static final int finish_code = 436;
-    FloatingActionButton add_course;
+    FloatingActionButton add_course, archive;
     ArrayList<coursemodel> coursemodels=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,11 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         recyclerView.setAdapter(rVadapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         add_course = findViewById(R.id.add_course);
+        archive = findViewById(R.id.archive);
         ImageView back=findViewById(R.id.back);
+
+        Academia.isArchive = getIntent().getBooleanExtra("isArchive", false);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,6 +69,26 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                 startActivityForResult(intent, finish_code);
             }
         });
+
+        archive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Intent intent = new Intent(Academia.this, Academia.class);
+                intent.putExtra("isArchive", !isArchive);
+                startActivity(intent);
+            }
+        });
+
+        String colorString;
+        if(isArchive) {
+            colorString = "#ff4b2b";
+        } else {
+            colorString = "#FFA500";
+        }
+        int color = Color.parseColor(colorString);
+        ColorStateList newTintList = ColorStateList.valueOf(color);
+        archive.setBackgroundTintList(newTintList);
     }
 
     @Override
@@ -111,6 +138,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
             case 1: // Edit
                 // Handle the "Edit" action here using the 'position'
                 Intent intent = new Intent(Academia.this,add_course.class);
+                intent.putExtra("isArchive", isArchive);
                 intent.putExtra("title", coursemodels.get(position).getcourse());
                 intent.putExtra("desc", coursemodels.get(position).getDesc());
                 intent.putExtra("id", coursemodels.get(position).getid());
@@ -128,7 +156,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                 course.put("id", coursemodels.get(position).getid());
                 course.put("uuid", coursemodels.get(position).getUuid());
                 course.put("description", coursemodels.get(position).getDesc());
-                course.put("archive", true);
+                course.put("archive", !isArchive);
 
                 coursesCollection.document(coursemodels.get(position).getUuid())
                         .set(course)
@@ -136,9 +164,9 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 // User data has been successfully added.
-                                Toast.makeText(Academia.this, "course archived", Toast.LENGTH_SHORT).show();
                                 finish();
                                 Intent intent = new Intent(Academia.this, Academia.class);
+                                intent.putExtra("isArchive", !isArchive);
                                 startActivity(intent);
                             }
                         })
@@ -162,6 +190,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                                 // Document was successfully deleted
                                 finish();
                                 Intent intent = new Intent(Academia.this, Academia.class);
+                                intent.putExtra("isArchive", isArchive);
                                 startActivity(intent);
                             }
                         })

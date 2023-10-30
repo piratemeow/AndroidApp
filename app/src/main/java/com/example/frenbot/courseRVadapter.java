@@ -106,6 +106,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                         if (task.isSuccessful()) {
                             coursemodels.clear(); // Clear existing data before adding new data
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 String course = document.getString("title");
                                 String id = document.getString("id");
                                 String instructor = document.getString("instructor");
@@ -113,8 +114,18 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                                 String desc = document.getString("description");
                                 boolean archive = Boolean.TRUE.equals(document.getBoolean("archive"));
 
-                                coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive);
-                                coursemodels.add(courseModel);
+                                if(Academia.isArchive) {
+                                    if(archive) {
+                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive);
+                                        coursemodels.add(courseModel);
+                                    }
+                                } else {
+                                    if(!archive) {
+                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive);
+                                        coursemodels.add(courseModel);
+                                    }
+                                }
+
                             }
                             notifyDataSetChanged(); // Notify the RecyclerView to refresh
                         } else {
@@ -175,7 +186,11 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.add(0, 1, 0, "Edit");
             contextMenu.add(0, 2, 1, "Delete");
-            contextMenu.add(0, 3, 1, "Archive");
+            if(Academia.isArchive) {
+                contextMenu.add(0, 3, 1, "Unarchive");
+            } else {
+                contextMenu.add(0, 3, 1, "Archive");
+            }
         }
 
         @Override

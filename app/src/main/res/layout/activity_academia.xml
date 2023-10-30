@@ -85,7 +85,6 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/archive"
                 android:src="@drawable/archive"
-                android:backgroundTint="@color/Orange"
                 app:tint="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +104,7 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_course"
                 android:src="@drawable/add"
-                android:backgroundTint="@color/Orange"
+                android:backgroundTint="#FFA500"
                 app:tint="@null"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

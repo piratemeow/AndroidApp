@@ -149,6 +149,8 @@ public class add_course extends AppCompatActivity {
                                         Toast.makeText(add_course.this, "course updated", Toast.LENGTH_SHORT).show();
 
                                         Intent intent = new Intent(add_course.this, Academia.class);
+                                        intent.putExtra("isArchive", Academia.isArchive);
+
                                         startActivity(intent);
 
                                         Intent intent2 = new Intent();
