@@ -125,7 +125,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                                         coursemodels.add(courseModel);
                                     }
                                 }
-
+                                notifyDataSetChanged();
                             }
                             notifyDataSetChanged(); // Notify the RecyclerView to refresh
                         } else {

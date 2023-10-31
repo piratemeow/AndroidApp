@@ -36,7 +36,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Open the FinanceActivity when financeCard is clicked
-                Intent intent = new Intent(getActivity(), Finance.class);
+                Intent intent = new Intent(getActivity(), Notice.class);
                 startActivity(intent);
             }
         });
@@ -46,6 +46,7 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 // Open the AcademiaActivity when academiaCard is clicked
                 Intent intent = new Intent(getActivity(), Academia.class);
+                intent.putExtra("isArchive", false);
                 startActivity(intent);
             }
         });

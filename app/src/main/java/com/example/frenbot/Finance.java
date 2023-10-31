@@ -3,6 +3,8 @@ package com.example.frenbot;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
@@ -26,7 +28,7 @@ public class Finance extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finance);
 
-
+        Toast.makeText(this, "Activity finance", Toast.LENGTH_SHORT).show();
     }
 
 }

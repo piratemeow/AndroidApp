@@ -48,75 +48,71 @@ public class CreateGroup extends AppCompatActivity {
         });
         add = findViewById(R.id.add);
 
-//        add.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                String titleString;
-//                titleString = String.valueOf(title.getText());
-//
-//                if(TextUtils.isEmpty(titleString)) {
-//                    Toast.makeText(AddCourseFile.this,"Enter File name",Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                AddCourseFile.fileName = titleString;
-//                StorageReference fileRef = storageRef.child(storagePath + UUID.randomUUID().toString() + "/" + AddCourseFile.fileName + "." + fileExtension);
-//                UploadTask uploadTask = fileRef.putFile(fileUri);
-//                uploadTask.addOnSuccessListener(taskSnapshot -> {
-//                    fileRef.getDownloadUrl().addOnSuccessListener(downloadUrl -> {
-//                        String downloadURL = downloadUrl.toString();
-//                        // Now you can save the downloadURL to Firestore or perform other actions.
-//                        // File uploaded successfully
-//
-//                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//                        FirebaseUser user = mAuth.getCurrentUser();
-//                        if (user != null) {
-//                            String userId = user.getUid();
-//
-//                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                            DocumentReference userDocument = db.collection("Users").document(userId);
-//                            CollectionReference coursesCollection = userDocument.collection("Course");
-//
-//                            DocumentReference courseDocument = coursesCollection.document(Course_Details.courseUUID);
-//                            CollectionReference courseFileCollection = courseDocument.collection("courseFileCollection");
-//
-//                            String fileId = UUID.randomUUID().toString();
-//                            Map<String, String> courseFile = new HashMap<>();
-//                            courseFile.put("title", AddCourseFile.fileName);
-//                            courseFile.put("downloadUri", downloadURL);
-//                            courseFile.put("uuid", fileId);
-//                            courseFile.put("fileType", type);
-//
-//                            DocumentReference newLinkDocument = courseFileCollection.document(fileId);
-//
-//                            newLinkDocument.set(courseFile)
-//                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                                        @Override
-//                                        public void onSuccess(Void aVoid) {
-//                                            // Document was successfully added to the courseLinkCollection
-//                                            Toast.makeText(AddCourseFile.this, "url stored", Toast.LENGTH_SHORT).show();
-//                                            Intent intent = new Intent(AddCourseFile.this, Course_Files.class);
-//                                            startActivity(intent);
-//
-//                                            Intent intent2 = new Intent();
-//                                            setResult(RESULT_OK, intent2);
-//                                            finish();
-//                                        }
-//                                    })
-//                                    .addOnFailureListener(new OnFailureListener() {
-//                                        @Override
-//                                        public void onFailure(@NonNull Exception e) {
-//                                            // Handle the error
-//                                        }
-//                                    });
-//
-//                        }
-//                    });
-//
-//                }).addOnFailureListener(exception -> {
-//                    // Handle unsuccessful uploads
-//                });
-//            }
-//        });
+        add.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String titleString;
+                titleString = String.valueOf(title.getText());
+
+                if(TextUtils.isEmpty(titleString)) {
+                    Toast.makeText(CreateGroup.this,"Enter Group name",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    String userId = user.getUid();
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    DocumentReference userDocument = db.collection("Users").document(userId);
+                    CollectionReference noticeCollection = userDocument.collection("NoticeGroup");
+
+                    String groupId = UUID.randomUUID().toString();
+                    Map<String, String> group = new HashMap<>();
+                    group.put("uuid", groupId);
+                    group.put("groupName", titleString);
+                    group.put("admin", userId);
+
+                    DocumentReference newDocument = noticeCollection.document(groupId);
+
+                    newDocument.set(group)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+
+                                    CollectionReference noticeCol = db.collection("Notice");
+                                    Map<String, String> noticeGroup = new HashMap<>();
+                                    noticeGroup.put("uuid", groupId);
+                                    noticeGroup.put("groupName", titleString);
+                                    noticeGroup.put("admin", userId);
+
+                                    DocumentReference noticeDocument = noticeCol.document(groupId);
+                                    noticeDocument.set(noticeGroup).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(CreateGroup.this, "Group created", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(CreateGroup.this, Notice.class);
+                                            startActivity(intent);
+
+                                            Intent intent2 = new Intent();
+                                            setResult(RESULT_OK, intent2);
+                                            finish();
+                                        }
+                                    });
+
+                                    // Document was successfully added to the courseLinkCollection
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Handle the error
+                                }
+                            });
+
+                }
+            }
+        });
     }
 }

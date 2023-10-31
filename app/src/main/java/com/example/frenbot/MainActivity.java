@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -78,21 +79,14 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-        finacecard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NoticeGroup.class);
-                startActivity(intent);
-            }
-        });
-
-        finacecard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,Finance.class);
-                startActivity(intent);
-            }
-        });
+//        finacecard.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this, "Finance card clicked", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(MainActivity.this, Notice.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
 
