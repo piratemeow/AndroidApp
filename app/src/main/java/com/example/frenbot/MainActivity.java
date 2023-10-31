@@ -52,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        finacecard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NoticeGroup.class);
+                startActivity(intent);
+            }
+        });
         about_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
