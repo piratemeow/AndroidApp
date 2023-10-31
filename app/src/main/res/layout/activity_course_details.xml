@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1B1919"
+    tools:context=".Course_Details">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:id="@+id/ll"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Orange"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/back"
+                android:src="@drawable/back"
+                android:layout_marginStart="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <TextView
+                android:id="@+id/eventlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Course Details"
+                android:textColor="@color/White"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
+    <LinearLayout
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <TextView
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textSize="20dp"
+            android:text="Course Title"
+            app:layout_constraintTop_toTopOf="@id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/ctitle"
+            android:padding="10dp"
+            android:fontFamily="@font/notoserifblack"
+            android:textColor="@color/White"
+            android:textSize="30dp"
+            android:text="Title"
+            app:layout_constraintTop_toTopOf="@id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textSize="20dp"
+            android:text="Course ID"
+            app:layout_constraintTop_toTopOf="@id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/course_id"
+            android:padding="10dp"
+            android:fontFamily="@font/notoserifblack"
+            android:textColor="@color/White"
+            android:textSize="30dp"
+            android:text="Title"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textSize="20dp"
+            android:text="Instructor"
+            app:layout_constraintTop_toTopOf="@id/constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/instructor"
+            android:padding="10dp"
+            android:textColor="@color/White"
+            android:textSize="30dp"
+            android:text="Title"
+            app:layout_constraintTop_toBottomOf="@id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- RecyclerView for Links -->
+        <TextView
+            android:padding="10dp"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/White"
+            android:textSize="45dp"
+            android:text="Resources"
+            app:layout_constraintTop_toBottomOf="@id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/links"
+            android:textColor="@color/White"
+            android:textSize="35dp"
+            android:text="Your Links(Click here)"
+            app:layout_constraintTop_toBottomOf="@id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/White"
+            android:id="@+id/files"
+            android:textSize="35dp"
+            android:text="Your Files(Click here)"
+            app:layout_constraintTop_toBottomOf="@id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/create_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/Orange"
+        app:maxImageSize="30dp"
+        app:tint="@null"
+        android:layout_margin="20dp"
+        android:src="@drawable/edit"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
