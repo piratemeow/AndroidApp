@@ -84,7 +84,7 @@
         <item>@drawable/edit</item>
         <item>@drawable/profile</item>
         <item>@drawable/about_us</item>
-        <item>@drawable/menu</item>
+        <item>@drawable/logout</item>
     </array>
 
 </resources>

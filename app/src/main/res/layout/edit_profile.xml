@@ -19,6 +19,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/ll"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/Orange"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/back"
+                    android:src="@drawable/back"
+                    android:layout_marginStart="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/eventlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:padding="10dp"
+                    android:text="Edit Profile"
+                    android:textColor="@color/White"
+                    android:textSize="30dp" />
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -63,7 +88,7 @@
                         android:textColor="@color/White"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                       app:layout_constraintTop_toTopOf="@id/imageView"
+                        app:layout_constraintTop_toTopOf="@id/imageView"
                         app:layout_constraintBottom_toBottomOf="@id/imageView"
                         app:layout_constraintStart_toEndOf="@id/imageView"/>
 
@@ -81,9 +106,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
-                        android:layout_marginStart="24dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="40dp"
-                        android:layout_marginEnd="24dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_marginBottom="24dp"
                         android:background="@drawable/dash_card"
                         android:elevation="3dp"
@@ -96,24 +121,24 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/nameb"
                                 android:layout_width="wrap_content"
-                                android:layout_height="30dp"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Name"
                                 android:textColor="@color/Orange"
                                 android:textSize="18dp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:layout_weight="1"
                                 android:text="Andrew"
                                 android:textAlignment="viewEnd"
@@ -126,24 +151,24 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/name1"
-                                android:layout_width="30dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Phone Number"
                                 android:textColor="@color/Orange"
                                 android:textSize="18dp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:layout_weight="1"
                                 android:text="01234567891"
                                 android:textAlignment="viewEnd"
@@ -156,24 +181,24 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/name3"
-                                android:layout_width="30dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Date Of Birth"
                                 android:textColor="@color/Orange"
                                 android:textSize="18dp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:layout_weight="1"
                                 android:text="01/01/2001"
                                 android:textAlignment="viewEnd"
@@ -185,24 +210,24 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/name5"
-                                android:layout_width="30dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="University"
                                 android:textColor="@color/Orange"
                                 android:textSize="18dp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:layout_weight="1"
                                 android:text="University Of Dhaka"
                                 android:textAlignment="viewEnd"
@@ -214,24 +239,24 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/name7"
-                                android:layout_width="30dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Department"
+                                android:text="Depatment"
                                 android:textColor="@color/Orange"
-                                android:textSize="17dp" />
+                                android:textSize="18dp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name8"
-                                android:layout_width="0dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:layout_weight="1"
                                 android:text="Computer Science and Engineering"
                                 android:textAlignment="viewEnd"
@@ -243,24 +268,24 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:id="@+id/name9"
-                                android:layout_width="30dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="Session"
                                 android:textColor="@color/Orange"
                                 android:textSize="18dp" />
 
-                            <TextView
+                            <EditText
                                 android:id="@+id/name10"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="1"
                                 android:layout_weight="1"
                                 android:text="2020-2021"
                                 android:textAlignment="viewEnd"
@@ -277,16 +302,14 @@
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_gravity="right"
-                android:id="@+id/edit"
+            <Button
+                android:layout_gravity="center"
+                android:id="@+id/sendButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/Orange"
-                app:maxImageSize="30dp"
-                app:tint="@null"
-                android:layout_margin="10dp"
-                android:src="@drawable/edit"/>
+                android:onClick="saveData"
+                android:text="Save"
+                android:layout_marginTop="16dp" />
 
         </LinearLayout>
     </ScrollView>

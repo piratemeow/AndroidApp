@@ -91,6 +91,7 @@
                 android:elevation="20dp"
                 />
             <TextView
+                android:textColor="@color/White"
                 android:text="Archive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -112,6 +113,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView
+                android:textColor="@color/White"
                 android:text="Add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

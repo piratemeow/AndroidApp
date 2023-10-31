@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".add_course"
     android:background="#FFC862">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
 
     <LinearLayout
         android:id="@+id/ll"
@@ -120,5 +128,6 @@
 
 
     </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

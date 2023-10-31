@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/White"
+    android:background="#F5F5F5"
     android:layout_height="match_parent">
 
   <ScrollView
@@ -91,7 +91,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/notoserifblack"
-                android:text="FINANCE"
+                android:text="NOTICE"
                 android:textColor="@color/Orange"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -102,7 +102,7 @@
                 android:layout_height="70dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/budget" />
+                android:src="@drawable/megaphone" />
           </RelativeLayout>
         </androidx.cardview.widget.CardView>
 

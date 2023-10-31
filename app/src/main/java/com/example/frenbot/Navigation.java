@@ -2,6 +2,7 @@ package com.example.frenbot;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -37,6 +38,7 @@ public class Navigation extends AppCompatActivity implements DrawerAdapter.OnIte
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         slidingRootNav = new SlidingRootNavBuilder(this)
                 .withDragDistance(180)

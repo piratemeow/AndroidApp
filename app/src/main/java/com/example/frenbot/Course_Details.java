@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,8 +31,8 @@ public class Course_Details extends AppCompatActivity {
         TextView id=findViewById(R.id.course_id);
         TextView instructor=findViewById(R.id.instructor);
         ImageView back=findViewById(R.id.back);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView links=findViewById(R.id.links);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView files=findViewById(R.id.files);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button links=findViewById(R.id.links);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button files=findViewById(R.id.files);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

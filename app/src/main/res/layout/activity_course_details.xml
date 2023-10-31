@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     android:background="#1B1919"
     tools:context=".Course_Details">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,7 +56,6 @@
             android:textColor="@color/White"
             android:textSize="20dp"
             android:text="Course Title"
-            app:layout_constraintTop_toTopOf="@id/constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
@@ -58,7 +65,6 @@
             android:textColor="@color/White"
             android:textSize="30dp"
             android:text="Title"
-            app:layout_constraintTop_toTopOf="@id/constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
@@ -66,7 +72,6 @@
             android:textColor="@color/White"
             android:textSize="20dp"
             android:text="Course ID"
-            app:layout_constraintTop_toTopOf="@id/constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
@@ -76,7 +81,6 @@
             android:textColor="@color/White"
             android:textSize="30dp"
             android:text="Title"
-            app:layout_constraintTop_toBottomOf="@id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
@@ -84,7 +88,6 @@
             android:textColor="@color/White"
             android:textSize="20dp"
             android:text="Instructor"
-            app:layout_constraintTop_toTopOf="@id/constraint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
         <TextView
@@ -93,59 +96,43 @@
             android:textColor="@color/White"
             android:textSize="30dp"
             android:text="Title"
-            app:layout_constraintTop_toBottomOf="@id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <!-- RecyclerView for Links -->
         <TextView
+            android:layout_marginTop="20dp"
             android:padding="10dp"
-            android:layout_marginTop="15dp"
             android:textColor="@color/White"
-            android:textSize="45dp"
+            android:textSize="20dp"
             android:text="Resources"
-            app:layout_constraintTop_toBottomOf="@id/location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <TextView
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
+        <Button
             android:id="@+id/links"
-            android:textColor="@color/White"
-            android:textSize="35dp"
-            android:text="Your Links(Click here)"
-            app:layout_constraintTop_toBottomOf="@id/location"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/White"
+            android:layout_height="wrap_content"
+            android:text="Your Links"
+            android:layout_margin="10dp"
+            android:textSize="25dp"
+            android:backgroundTint="@color/Orange" />
+        <Button
             android:id="@+id/files"
-            android:textSize="35dp"
-            android:text="Your Files(Click here)"
-            app:layout_constraintTop_toBottomOf="@id/location"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Your Files"
+            android:layout_margin="10dp"
+            android:textSize="25dp"
+            android:backgroundTint="@color/Orange" />
 
 
     </LinearLayout>
 
 
     </LinearLayout>
+    </ScrollView>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/create_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/Orange"
-        app:maxImageSize="30dp"
-        app:tint="@null"
-        android:layout_margin="20dp"
-        android:src="@drawable/edit"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
