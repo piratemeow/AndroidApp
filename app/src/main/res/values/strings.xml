@@ -69,4 +69,22 @@
     <string name="skip_btn">Skip</string>
     <string name="next_btn">Next</string>
     <string name="start_btn">Lets Get Started</string>
+
+    <string name="appname">Drawer Sliding</string>
+
+
+    <string-array name="ld_activityScreenTitles">
+        <item>Dashboard</item>
+        <item>My Profile</item>
+        <item>About Us</item>
+        <item>Log Out</item>
+    </string-array>
+
+    <array name="ld_activityScreenIcons">
+        <item>@drawable/edit</item>
+        <item>@drawable/profile</item>
+        <item>@drawable/about_us</item>
+        <item>@drawable/menu</item>
+    </array>
+
 </resources>

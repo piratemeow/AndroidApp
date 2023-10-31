@@ -49,7 +49,7 @@ public class Onboarding extends AppCompatActivity {
         });
     }
     public void skip(View view){
-        Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent homeIntent = new Intent(getApplicationContext(), Navigation.class);
         Intent loginIntent = new Intent(getApplicationContext(), Login.class);
         SharedPreferences sharedPreferences =  getSharedPreferences(Login.Auth_Pref, 0);
         boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
