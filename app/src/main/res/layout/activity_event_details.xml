@@ -6,9 +6,21 @@
     android:layout_height="match_parent"
     android:background="#1B1919"
     tools:context=".Event_Details">
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+    <LinearLayout
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
         <LinearLayout
             android:id="@+id/ll"
@@ -100,20 +112,20 @@
     </LinearLayout>
 
 
-
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_gravity="right"
+            android:id="@+id/create_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Orange"
+            app:maxImageSize="30dp"
+            app:tint="@null"
+            android:layout_margin="20dp"
+            android:src="@drawable/edit"/>
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/create_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/Orange"
-        app:maxImageSize="30dp"
-        app:tint="@null"
-        android:layout_margin="20dp"
-        android:src="@drawable/edit"/>
 
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

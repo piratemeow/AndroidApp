@@ -70,7 +70,7 @@ public class Sos extends AppCompatActivity {
             toggleServiceButton.setText("Start service");
         }
 
-        @SuppressLint("WrongViewCast") Button selectMessageNumberButton = findViewById(R.id.selectMessageNumberButton);
+        @SuppressLint("WrongViewCast") ImageView selectMessageNumberButton = findViewById(R.id.selectMessageNumberButton);
         selectMessageNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +78,7 @@ public class Sos extends AppCompatActivity {
             }
         });
 
-        @SuppressLint("WrongViewCast") Button selectCallNumberButton = findViewById(R.id.selectCallNumberButton);
+        @SuppressLint("WrongViewCast") ImageView selectCallNumberButton = findViewById(R.id.selectCallNumberButton);
         selectCallNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
