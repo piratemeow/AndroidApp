@@ -1,5 +1,20 @@
 package com.example.frenbot;
 
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.yarolegovich.slidingrootnav.SlidingRootNav;
+import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
+
+import java.util.Arrays;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -11,7 +26,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
+
+    private static final int POS_DASHBOARD = 0;
+    private static final int POS_PROFILE = 1;
+    private static final int POS_ABOUT_US = 2;
+    private static final int POS_LOGOUT = 3;
+
+
+    private String[] screenTitles;
+    private Drawable[] screenIcons;
+
+    private SlidingRootNav slidingRootNav;
 
     ImageView sosimg;
     ImageView eventimg;
@@ -24,11 +50,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         finacecard=findViewById(R.id.finacecard);;
         soscard = findViewById(R.id.soscard);
         eventcard = findViewById(R.id.eventcard);
         academiacard = findViewById(R.id.academiacard);
-        about_us = findViewById(R.id.aboutus);
 
         soscard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,12 +85,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        about_us.setOnClickListener(new View.OnClickListener() {
+
+        finacecard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,AboutUs.class);
+                Intent intent = new Intent(MainActivity.this,Finance.class);
                 startActivity(intent);
             }
         });
     }
+
+
 }
