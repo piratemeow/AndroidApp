@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,7 +39,14 @@ import java.util.UUID;
 public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
 
     public static String staticGroup;
+    public static String gpName;
+    public static String gpAdmin;
     ArrayList<MessageItem> messageItems = new ArrayList<>();
+    Button cancelEdit;
+    public static boolean isEdit;
+    TextInputEditText message;
+    public static String editTime;
+    public static String editUUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +56,16 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
         LinearLayout ll2 = findViewById(R.id.ll2);
         TextView warning = findViewById(R.id.warning);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView name = findViewById(R.id.name);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextInputEditText message = findViewById((R.id.message));
+        message = findViewById((R.id.message));
+        cancelEdit = findViewById(R.id.cancelEdit);
 
         String groupName = getIntent().getStringExtra("groupName");
         String adminId = getIntent().getStringExtra("adminId");
         String groupId = getIntent().getStringExtra("groupId");
         NoticeGroup.staticGroup = groupId;
+        NoticeGroup.gpName = groupName;
+        NoticeGroup.gpAdmin = adminId;
+        NoticeGroup.isEdit = false;
 
         name.setText(groupName);
 
@@ -67,6 +80,15 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                 ll2.setVisibility(View.GONE);
             }
         }
+        cancelEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelEdit.setVisibility(View.GONE);
+                message.setText("");
+                NoticeGroup.isEdit = false;
+            }
+        });
+        cancelEdit.setVisibility(View.GONE);
 
         ImageView back=findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -95,20 +117,31 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
 
                 // Format the current time to a string
                 String formattedTime = sdf.format(currentTime);
+                if(NoticeGroup.isEdit) {
+                    formattedTime = NoticeGroup.editTime;
+                }
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 CollectionReference noticeCol = db.collection("Notice");
-                Map<String, String> message = new HashMap<>();
+                Map<String, String> messageData = new HashMap<>();
                 String uuid = UUID.randomUUID().toString();
-                message.put("uuid", uuid);
-                message.put("message", text);
-                message.put("time", formattedTime);
+
+                if(NoticeGroup.isEdit) {
+                    uuid = NoticeGroup.editUUID;
+                }
+                messageData.put("uuid", uuid);
+                messageData.put("message", text);
+                messageData.put("time", formattedTime);
+
+                message.setText("");
+                cancelEdit.setVisibility(View.GONE);
+                NoticeGroup.isEdit = false;
 
                 DocumentReference noticeDocument = noticeCol.document(groupId);
                 CollectionReference messageCollection = noticeDocument.collection("Message");
 
                 DocumentReference newDocument = messageCollection.document(uuid);
-                newDocument.set(message)
+                newDocument.set(messageData)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -141,5 +174,53 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
     @Override
     public void OnItemClick(int position) {
 
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = MessageAdapter.MyViewHolder.position; // Get the clicked position
+        System.out.println(messageItems.get(position).message);
+        System.out.println(item);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference noticeCollection = db.collection("Notice");
+        DocumentReference noticeGroup = noticeCollection.document(NoticeGroup.staticGroup);
+        CollectionReference messageCollection = noticeGroup.collection("Message");
+        DocumentReference messageData = messageCollection.document(messageItems.get(position).uuid);
+
+        switch (item.getItemId()) {
+            case 1: // Edit
+                // Handle the "Edit" action here using the 'position'
+                NoticeGroup.isEdit = true;
+                message.setText(messageItems.get(position).message);
+                cancelEdit.setVisibility(View.VISIBLE);
+                NoticeGroup.editTime = messageItems.get(position).timeStamp;
+                NoticeGroup.editUUID = messageItems.get(position).uuid;
+                return true;
+
+            case 2: // Delete
+                // Handle the "Delete" action here using the 'position'
+                messageData.delete()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                // Document was successfully deleted
+                                finish();
+                                Intent intent = new Intent(NoticeGroup.this, NoticeGroup.class);
+                                intent.putExtra("groupName", NoticeGroup.gpName);
+                                intent.putExtra("adminId", NoticeGroup.gpAdmin);
+                                intent.putExtra("groupId", NoticeGroup.staticGroup);
+                                startActivity(intent);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Handle the error
+                            }
+                        });
+                return true;
+        }
+        return true;
     }
 }

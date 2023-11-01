@@ -1,6 +1,7 @@
 package com.example.frenbot;
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,13 +92,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
         
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,View.OnLongClickListener {
         TextView messageText, messageTime;
+        public static int position;
 
         public MyViewHolder(@NonNull View itemView, RCViewInterface rcViewInterface) {
             super(itemView);
             messageText = itemView.findViewById(R.id.noticeTextView);
             messageTime = itemView.findViewById(R.id.timestampTextView);
+
+            itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnLongClickListener(this);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,6 +116,30 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyViewHo
                     }
                 }
             });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser user = mAuth.getCurrentUser();
+            if (user != null) {
+                String userId = user.getUid();
+                if (userId.equals(NoticeGroup.gpAdmin)) {
+                    contextMenu.add(0, 1, 0, "Edit");
+                    contextMenu.add(0, 2, 1, "Delete");
+                }
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                MessageAdapter.MyViewHolder.position = position;
+                System.out.println(position);
+                return false; // Consume the long click event
+            }
+            return false;
         }
     }
 }
