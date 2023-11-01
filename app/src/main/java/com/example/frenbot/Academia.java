@@ -1,5 +1,6 @@
 package com.example.frenbot;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +35,9 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
     public static boolean isArchive;
     private static final int finish_code = 436;
     FloatingActionButton add_course, archive;
+    TextView archiveText;
     ArrayList<coursemodel> coursemodels=new ArrayList<>();
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         add_course = findViewById(R.id.add_course);
         archive = findViewById(R.id.archive);
+        archiveText = findViewById(R.id.archiveText);
         ImageView back=findViewById(R.id.back);
 
         Academia.isArchive = getIntent().getBooleanExtra("isArchive", false);
@@ -83,8 +88,10 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         String colorString;
         if(isArchive) {
             colorString = "#292828";
+            archiveText.setText("Archived Course");
         } else {
             colorString = "#FFA500";
+            archiveText.setText("Your Course");
         }
         int color = Color.parseColor(colorString);
         ColorStateList newTintList = ColorStateList.valueOf(color);
@@ -166,7 +173,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                                 // User data has been successfully added.
                                 finish();
                                 Intent intent = new Intent(Academia.this, Academia.class);
-                                intent.putExtra("isArchive", !isArchive);
+                                intent.putExtra("isArchive", isArchive);
                                 startActivity(intent);
                             }
                         })

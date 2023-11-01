@@ -1,26 +1,36 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="90dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:background="@drawable/chat_bg"
+    android:layout_marginBottom="15dp"
     android:orientation="horizontal">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="10dp"
         android:id="@+id/icon"
+        android:src="@drawable/budget"
         android:contentDescription="Icon"
-        android:clickable="true" />
+        android:clickable="true"
+        app:shapeAppearanceOverlay="@style/Circular"/>
 
     <TextView
         android:id="@+id/titleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toEndOf="@id/icon"
+        android:layout_toRightOf="@id/icon"
         android:gravity="center_vertical"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:textColor="@color/White"
-        android:textSize="20sp" />
-</LinearLayout>
+        android:textSize="30dp" />
+
+</RelativeLayout>
 

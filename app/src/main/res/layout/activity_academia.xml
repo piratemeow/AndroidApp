@@ -94,6 +94,7 @@
             <TextView
                 android:textColor="@color/Black"
                 android:text="Archive"
+                android:id="@+id/archiveText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
