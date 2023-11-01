@@ -224,7 +224,32 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                     return true;
                                 } else if (item.getItemId() == R.id.delete) {
                                     // Handle "leave" item click
-                                    return true;
+                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                    CollectionReference users = db.collection("Users");
+                                    CollectionReference noticeCollection = db.collection("Notice");
+                                    DocumentReference noticeGp = noticeCollection.document(NoticeGroup.staticGroup);
+                                    CollectionReference allMember = noticeGp.collection("Member");
+                                    DocumentReference newDoc = allMember.document(user.getUid());
+                                    DocumentReference userDoc = users.document(user.getUid());
+                                    CollectionReference userNotice = userDoc.collection("NoticeGroup");
+                                    Map<String, String> groupData = new HashMap<>();
+                                    groupData.put("admin", NoticeGroup.gpAdmin);
+                                    groupData.put("groupName", NoticeGroup.gpName);
+                                    groupData.put("uuid", NoticeGroup.staticGroup);
+                                    DocumentReference groupDoc = userNotice.document(NoticeGroup.staticGroup);
+
+                                    groupDoc.delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Intent intent = new Intent(NoticeGroup.this, Notice.class);
+                                                    startActivity(intent);
+
+                                                    Intent intent2 = new Intent();
+                                                    setResult(RESULT_OK, intent2);
+                                                    finish();
+                                                }
+                                            });
                                 }
                             } else {
                                 inflater.inflate(R.menu.menu, popupMenu.getMenu());
@@ -237,7 +262,39 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                     return true;
                                 } else if (item.getItemId() == R.id.leave) {
                                     // Handle "leave" item click
-                                    Toast.makeText(NoticeGroup.this, "Leave selected", Toast.LENGTH_SHORT).show();
+                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                    CollectionReference users = db.collection("Users");
+                                    CollectionReference noticeCollection = db.collection("Notice");
+                                    DocumentReference noticeGp = noticeCollection.document(NoticeGroup.staticGroup);
+                                    CollectionReference allMember = noticeGp.collection("Member");
+                                    DocumentReference newDoc = allMember.document(user.getUid());
+
+                                    newDoc.delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    DocumentReference userDoc = users.document(user.getUid());
+                                                    CollectionReference userNotice = userDoc.collection("NoticeGroup");
+                                                    Map<String, String> groupData = new HashMap<>();
+                                                    groupData.put("admin", NoticeGroup.gpAdmin);
+                                                    groupData.put("groupName", NoticeGroup.gpName);
+                                                    groupData.put("uuid", NoticeGroup.staticGroup);
+                                                    DocumentReference groupDoc = userNotice.document(NoticeGroup.staticGroup);
+
+                                                    groupDoc.delete()
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    Intent intent = new Intent(NoticeGroup.this, Notice.class);
+                                                                    startActivity(intent);
+
+                                                                    Intent intent2 = new Intent();
+                                                                    setResult(RESULT_OK, intent2);
+                                                                    finish();
+                                                                }
+                                                            });
+                                                }
+                                            });
                                     return true;
                                 }
                             }

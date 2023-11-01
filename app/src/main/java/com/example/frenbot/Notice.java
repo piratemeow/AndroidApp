@@ -72,6 +72,6 @@ public class Notice extends AppCompatActivity implements RCViewInterface {
         intent.putExtra("groupName", groupItems.get(position).groupName);
         intent.putExtra("adminId", groupItems.get(position).adminID);
         intent.putExtra("groupId", groupItems.get(position).groupID);
-        startActivity(intent);
+        startActivityForResult(intent, finish_code);
     }
 }
