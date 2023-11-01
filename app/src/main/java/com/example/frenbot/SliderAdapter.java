@@ -22,21 +22,21 @@ public class SliderAdapter extends PagerAdapter {
     }
 
     int images[] = {
-            R.raw.finance,
             R.raw.academic,
             R.raw.event,
+            R.raw.notice,
             R.raw.sos
     };
     int descs[]={
-            R.string.des_finance,
             R.string.des_academic,
             R.string.des_event,
+            R.string.des_finance,
             R.string.des_sos
     };
     int headers[]={
-            R.string.finance,
             R.string.academic,
             R.string.event,
+            R.string.finance,
             R.string.sos
 
     };

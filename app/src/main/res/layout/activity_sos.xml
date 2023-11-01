@@ -63,6 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter your message"
+        android:textCursorDrawable="@drawable/white_cursor_color"
         android:background="@drawable/sos_card"
         android:inputType="textMultiLine"
         android:minLines="6"

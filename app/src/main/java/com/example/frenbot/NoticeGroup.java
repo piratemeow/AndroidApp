@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,7 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticegroup);
 
+
         LinearLayout ll2 = findViewById(R.id.ll2);
         TextView warning = findViewById(R.id.warning);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView name = findViewById(R.id.name);
@@ -67,12 +70,30 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                 ll2.setVisibility(View.GONE);
             }
         }
-
+        ImageView menu=findViewById(R.id.menu);
         ImageView back=findViewById(R.id.back);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu popupMenu = new PopupMenu(NoticeGroup.this,menu);
+                popupMenu.getMenuInflater().inflate(R.menu.admin_menu, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        Toast.makeText(NoticeGroup.this,"clicked"+ menuItem.getTitle(),Toast.LENGTH_SHORT).show();
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
@@ -137,6 +158,9 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
     }
+
+
+
 
     @Override
     public void OnItemClick(int position) {

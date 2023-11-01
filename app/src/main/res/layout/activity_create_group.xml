@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F49B"
+    android:background="#FFC862"
     tools:context=".AddCourseFile">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Orange"
+            android:background="@color/lightBlack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -47,9 +47,8 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:src="@drawable/notice"
+                android:src="@drawable/megaphone"
                 android:layout_marginBottom="40dp"
-                android:background="@color/Orange"
                 android:layout_width="180dp"
                 android:layout_height="180dp"/>
 
@@ -69,7 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Create Group"
-                android:backgroundTint="#292828"
+                android:backgroundTint="@color/lightBlack"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="5dp"
                 />

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -42,7 +43,7 @@ import java.util.UUID;
 public class Edit_Profile extends AppCompatActivity {
     private static final int REQUEST_CODE = 123;
 //    String nam, phon, birth, varsit, dep, sess, email, pic;
-    ImageView profilePic;
+    ShapeableImageView profilePic;
     String imgPath;
     EditText name, phone, dob, varsity, dept, session;
     TextView gmail, nameText;

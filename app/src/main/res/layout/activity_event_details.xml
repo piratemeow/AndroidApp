@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B1919"
+    android:background="@color/whitebg"
     tools:context=".Event_Details">
 
     <ScrollView
@@ -57,7 +57,7 @@
         android:orientation="vertical" >
         <TextView
             android:padding="10dp"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="20dp"
             android:text="Event Title"
             app:layout_constraintTop_toTopOf="@id/constraint"
@@ -67,7 +67,7 @@
             android:id="@+id/title"
             android:padding="10dp"
             android:fontFamily="@font/notoserifblack"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="30dp"
             android:text="Title"
             app:layout_constraintTop_toTopOf="@id/constraint"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:padding="10dp"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="20dp"
             android:text="Location"
             app:layout_constraintTop_toTopOf="@id/constraint"
@@ -85,7 +85,7 @@
             android:id="@+id/location"
             android:padding="10dp"
             android:fontFamily="@font/notoserifblack"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="30dp"
             android:text="Title"
             app:layout_constraintTop_toBottomOf="@id/title"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:padding="10dp"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="20dp"
             android:text="Time"
             app:layout_constraintTop_toTopOf="@id/constraint"
@@ -102,7 +102,7 @@
         <TextView
             android:id="@+id/time"
             android:padding="10dp"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="30dp"
             android:text="Title"
             app:layout_constraintTop_toBottomOf="@id/location"

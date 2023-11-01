@@ -41,7 +41,7 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         app:layout_constraintHorizontal_bias=".2"
                         android:id="@+id/imageView"
                         android:layout_width="120dp"
@@ -49,7 +49,8 @@
                         android:layout_marginTop="20dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearanceOverlay="@style/Circular"/>
 
                     <TextView
                         app:layout_constraintVertical_bias=".2"
