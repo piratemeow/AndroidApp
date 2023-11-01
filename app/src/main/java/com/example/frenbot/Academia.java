@@ -82,7 +82,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
 
         String colorString;
         if(isArchive) {
-            colorString = "#FFD700";
+            colorString = "#292828";
         } else {
             colorString = "#FFA500";
         }

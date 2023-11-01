@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B1919"
+    android:background="@color/whitebg"
     tools:context=".Course_Files">
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:backgroundTint="@color/Orange"
+                android:layout_margin="5dp"
                 app:maxImageSize="30dp"
                 app:tint="@null"
                 android:src="@drawable/add"/>

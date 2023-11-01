@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightBlack"
+    android:background="@color/whitebg"
     tools:context=".Events">
     <LinearLayout
         android:id="@+id/lev"
@@ -86,12 +86,13 @@
                 android:id="@+id/archive"
                 android:src="@drawable/archive"
                 app:tint="@null"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="20dp"
                 />
             <TextView
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="Archive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -113,7 +114,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
             <TextView
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:text="Add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

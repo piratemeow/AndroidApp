@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B1919"
+    android:background="@color/whitebg"
     tools:context=".Course_Files">
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:id="@+id/menu"
                 android:src="@drawable/menu"
                 android:layout_marginEnd="15dp"
-                android:layout_width= "60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -82,21 +82,25 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#6B7385"
+                android:background="@drawable/chat_bg"
                 android:padding="7dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:textColor="@color/AntiqueWhite"
-                    android:layout_weight="1"
-                    android:paddingStart="5dp"
-                    android:textCursorDrawable="@drawable/white_cursor_color"
-                    android:id="@+id/message"
-                    android:background="#1B1919"
-                    android:inputType="text" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/AntiqueWhite"
+                        android:paddingStart="5dp"
+                        android:textCursorDrawable="@drawable/white_cursor_color"
+                        android:id="@+id/message"
+                        android:background="@color/lightBlack"
+                        android:inputType="text" />
+
+
 
                 <ImageView
                     android:layout_marginLeft="6dp"
@@ -115,7 +119,7 @@
                 android:padding="10dp"
                 android:text="You cannot post here"
                 android:textColor="@color/White"
-                android:background="#6B7385"
+                android:background="@color/DarkOrange"
                 android:textSize="25dp"
                 android:textStyle="bold"
                 android:textAlignment="center"
