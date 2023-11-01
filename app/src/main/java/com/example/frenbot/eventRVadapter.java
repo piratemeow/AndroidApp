@@ -1,5 +1,6 @@
 package com.example.frenbot;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,14 @@ import android.content.Context;
 
 public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHolder> {
 
+    private final RCViewInterface rcViewInterface;
     Context context;
     ArrayList<eventmodel> eventmodels;
 
-    public eventRVadapter(Context context, ArrayList<eventmodel> eventmodels){
+    public eventRVadapter(Context context, ArrayList<eventmodel> eventmodels,RCViewInterface rcViewInterface){
         this.context=context;
         this.eventmodels=eventmodels;
+        this.rcViewInterface=rcViewInterface;
     }
     @NonNull
     @Override
@@ -26,7 +29,7 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
         LayoutInflater inflater= LayoutInflater.from(context);
         View view=inflater.inflate(R.layout.event_rview,parent,false);
 
-        return new eventRVadapter.MyViewHolder(view);
+        return new eventRVadapter.MyViewHolder(view,rcViewInterface);
     }
 
     @Override
@@ -42,15 +45,34 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
         return eventmodels.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener{
 
         TextView title,time,place;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView,RCViewInterface rcViewInterface) {
             super(itemView);
             title=itemView.findViewById(R.id.title);
             time=itemView.findViewById(R.id.duration);
             place=itemView.findViewById(R.id.venue);
+            itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(rcViewInterface!=null){
+                        int pos=getAdapterPosition();
+                        if(pos!=RecyclerView.NO_POSITION){
+                            rcViewInterface.OnItemClick(pos);
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.setHeaderTitle("Options");
+            contextMenu.add(0, 1, 0, "Edit");
+            contextMenu.add(0, 3, 1, "Delete");
         }
     }
 }

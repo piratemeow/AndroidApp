@@ -7,6 +7,7 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -14,6 +15,12 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.POWER_BUTTON" />
     <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -26,14 +33,44 @@
         android:theme="@style/Theme.Frenbot"
         tools:targetApi="31">
         <activity
+            android:name=".Edit_Profile"
+            android:exported="false" />
+        <activity
+            android:name=".Navigation"
+            android:exported="false" />
+        <activity
+            android:name=".Finance"
+            android:exported="false" />
+        <activity
+            android:name=".Course_Details"
+            android:exported="false" />
+        <activity
+            android:name=".Course_Links"
+            android:exported="false" />
+        <activity
+            android:name=".Course_Files"
+            android:exported="false" />
+        <activity
+            android:name=".AddCourseLink"
+            android:exported="false" />
+        <activity
+            android:name=".AddCourseFile"
+            android:exported="false" />
+        <activity
+            android:name=".Event_Details"
+            android:exported="false" />
+        <activity
+            android:name=".Onboarding"
+            android:exported="false" />
+        <activity
             android:name=".add_course"
             android:exported="false" />
         <activity
             android:name=".Sos"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Events"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Create_event"
             android:exported="true">
@@ -47,7 +84,7 @@
         </activity>
         <activity
             android:name=".Academia"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Signup"
             android:exported="true" />
@@ -55,8 +92,20 @@
             android:name=".AboutUs"
             android:exported="true" />
         <activity
+            android:name=".Notice"
+            android:exported="true" />
+        <activity
+            android:name=".NoticeGroup"
+            android:exported="true" />
+        <activity
+            android:name=".ListClass"
+            android:exported="true" />
+        <activity
+            android:name=".CreateGroup"
+            android:exported="true" />
+        <activity
             android:name=".Login"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Splashscreen"
             android:exported="true">
@@ -69,6 +118,15 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
+
+        <service
+            android:name=".ShakeDetectionService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

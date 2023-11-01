@@ -91,7 +91,7 @@ public class Login extends AppCompatActivity {
                                     editor.commit();
                                     Toast.makeText(Login.this, "Login successful.",
                                             Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
+                                    Intent intent = new Intent(Login.this, Navigation.class);
                                     startActivity(intent);
                                 } else {
                                     // If sign in fails, display a message to the user.

@@ -36,7 +36,7 @@
             android:textColor="@color/CornflowerBlue"
             android:textStyle="bold"
             android:textSize="25dp"
-            android:fontFamily="@font/olivia"
+            android:fontFamily="@font/notoserifblack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@id/cl"

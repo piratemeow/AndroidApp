@@ -1,23 +1,19 @@
 package com.example.frenbot;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.telephony.SmsManager;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,24 +21,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Sos extends AppCompatActivity implements SensorEventListener {
+public class Sos extends AppCompatActivity {
 
     static final int CONTACT_PICKER_REQUEST_MESSAGE = 1;
     static final int CONTACT_PICKER_REQUEST_CALL = 2;
@@ -52,12 +42,9 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
     EditText callNumberEditText;
     EditText messageEditText;
     FirebaseAuth mAuth;
+    Button toggleServiceButton;
 
-    private SensorManager sensorManager;
-    private Sensor accelerometer;
-    private boolean isAccelerometerAvailable, isNotFirstTime = false;
-    private float currentX, currentY, currentZ, lastX, lastY, lastZ, shakeThreshold = 10f;
-
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,18 +54,23 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
         callNumberEditText = findViewById(R.id.callNumberEditText);
         messageEditText = findViewById(R.id.messageEditText);
         mAuth = FirebaseAuth.getInstance();
-
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null) {
-            isAccelerometerAvailable = true;
-            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        } else {
-            isAccelerometerAvailable = false;
-        }
+        toggleServiceButton = findViewById(R.id.toggleServiceButton);
+        ImageView back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         checkAndRequestPermissions();
+        if (isServiceRunning(ShakeDetectionService.class)) {
+            toggleServiceButton.setText("Stop service");
+        } else {
+            toggleServiceButton.setText("Start service");
+        }
 
-        Button selectMessageNumberButton = findViewById(R.id.selectMessageNumberButton);
+        @SuppressLint("WrongViewCast") ImageView selectMessageNumberButton = findViewById(R.id.selectMessageNumberButton);
         selectMessageNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +78,7 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
             }
         });
 
-        Button selectCallNumberButton = findViewById(R.id.selectCallNumberButton);
+        @SuppressLint("WrongViewCast") ImageView selectCallNumberButton = findViewById(R.id.selectCallNumberButton);
         selectCallNumberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,9 +127,13 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
                     new String[]{Manifest.permission.SEND_SMS, Manifest.permission.CALL_PHONE},
                     PERMISSION_REQUEST_CODE);
         }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_CODE);
+        }
     }
 
-    public void sendMessageAndCall(View view) {
+    public void saveData(View view) {
         System.out.println("calling the handler");
 
         FirebaseUser user = mAuth.getCurrentUser();
@@ -179,124 +175,36 @@ public class Sos extends AppCompatActivity implements SensorEventListener {
 
     }
 
-    private void sendSms(String phoneNumber, String message) {
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            ArrayList<String> parts = smsManager.divideMessage(message);
-            smsManager.sendMultipartTextMessage(phoneNumber, null, parts, null, null);
-            Toast.makeText(this, "Message sent successfully", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(this, "Message sending failed", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    private void makeCall(String phoneNumber) {
-        try {
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:" + phoneNumber));
-            startActivity(callIntent);
-        } catch (SecurityException e) {
-            Toast.makeText(this, "Call initiation failed", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        currentX = sensorEvent.values[0];
-        currentY = sensorEvent.values[1];
-        currentZ = sensorEvent.values[2];
-
-        if(isNotFirstTime) {
-            float xDiff = Math.abs(currentX - lastX);
-            float yDiff = Math.abs(currentY - lastY);
-            float zDiff = Math.abs(currentZ - lastZ);
-
-            if((xDiff > shakeThreshold && yDiff > shakeThreshold) || (xDiff > shakeThreshold && zDiff > shakeThreshold) || (zDiff > shakeThreshold && yDiff > shakeThreshold)) {
-                // Get the current user's UID from Firebase Authentication
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (currentUser != null) {
-                    String uid = currentUser.getUid();
-
-                    // Reference to the "sosInfo" collection
-                    CollectionReference sosInfoCollection = FirebaseFirestore.getInstance().collection("SosInfo");
-
-                    // Query the collection for the document with the user's UID
-                    sosInfoCollection.document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful()) {
-                                DocumentSnapshot document = task.getResult();
-                                if (document.exists()) {
-                                    // Document exists, you can retrieve the data here
-                                    String message = document.getString("message");
-                                    String messageNumber = document.getString("messageNumber");
-                                    String callNumber = document.getString("callNumber");
-
-                                    System.out.println(message);
-                                    System.out.println(messageNumber);
-                                    System.out.println(callNumber);
-
-                                    makeCall(callNumber);
-
-                                    // Check if messageNumber and callNumber are not empty
-                                    if (!messageNumber.isEmpty() && !callNumber.isEmpty()) {
-                                        sendSms(messageNumber, message);
-                                        makeCall(callNumber);
-                                    } else if(!messageNumber.isEmpty()){
-                                        sendSms(messageNumber, message);
-                                    } else if(!callNumber.isEmpty()) {
-                                        makeCall(callNumber);
-                                    }
-
-                                    // Do something with the retrieved data (e.g., display it)
-                                } else {
-                                    // Document does not exist for this user
-                                    // You can handle this case as needed
-                                    System.out.println("Document does not exist for this user");
-                                }
-                            } else {
-                                // Handle errors
-                                Exception e = task.getException();
-                                if (e != null) {
-                                    // Log or display the error
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    });
-                }
-
+    private boolean isServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
             }
         }
-
-        lastX = currentX;
-        lastY = currentY;
-        lastZ = currentZ;
-        isNotFirstTime = true;
+        return false;
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(isAccelerometerAvailable) {
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+    @SuppressLint("SetTextI18n")
+    public void toggleShakeService(View view) {
+        if (isServiceRunning(ShakeDetectionService.class)) {
+            toggleServiceButton.setText("Start service");
+            // Service is running, stop it
+            Intent serviceIntent = new Intent(this, ShakeDetectionService.class);
+            stopService(serviceIntent);
+        } else {
+            toggleServiceButton.setText("Stop service");
+            // Service is not running, start it
+            Intent serviceIntent = new Intent(this, ShakeDetectionService.class);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            } else {
+                startService(serviceIntent);
+            }
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if(isAccelerometerAvailable) {
-            sensorManager.unregisterListener(this);
-        }
-    }
 }
 
 class SOSInfo {
@@ -311,26 +219,12 @@ class SOSInfo {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public String getMessageNumber() {
         return messageNumber;
-    }
-
-    public void setMessageNumber(String messageNumber) {
-        this.messageNumber = messageNumber;
     }
 
     public String getCallNumber() {
         return callNumber;
     }
 
-    public void setCallNumber(String callNumber) {
-        this.callNumber = callNumber;
-    }
-
-    public SOSInfo() {
-    }
 }

@@ -121,6 +121,14 @@ public class Signup extends AppCompatActivity {
                                         // Store user data in the document.
                                         Map<String, Object> userData = new HashMap<>();
                                         userData.put("name", userName);
+                                        userData.put("email", email);
+                                        userData.put("dob", "");
+                                        userData.put("phone", "");
+                                        userData.put("varsity", "");
+                                        userData.put("dept", "");
+                                        userData.put("session", "");
+                                        userData.put("profilePic", "");
+                                        userData.put("userId", userId);
                                         // Add other user-related data as needed.
 
                                         // Set the data in the document.
@@ -130,7 +138,7 @@ public class Signup extends AppCompatActivity {
                                                     public void onSuccess(Void aVoid) {
                                                         // User data has been successfully added.
                                                         Toast.makeText(Signup.this, "Account created and database updated.", Toast.LENGTH_SHORT).show();
-                                                        Intent intent = new Intent(Signup.this, MainActivity.class);
+                                                        Intent intent = new Intent(Signup.this, Navigation.class);
                                                         startActivity(intent);
                                                     }
                                                 })

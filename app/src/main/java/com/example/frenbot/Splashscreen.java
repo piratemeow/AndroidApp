@@ -21,6 +21,7 @@ import kotlin.Pair;
 public class Splashscreen extends AppCompatActivity {
     TextView greet,greet2;
     LottieAnimationView lottiesplash;
+    SharedPreferences Onboarding;
 
 
     @Override
@@ -38,29 +39,47 @@ public class Splashscreen extends AppCompatActivity {
         greet.setAlpha(v);
         greet2.setAlpha(v);
 
-        greet.animate().translationY(200).alpha(1).setDuration(1000).setStartDelay(400).start();
-        greet2.animate().translationY(-200).alpha(1).setDuration(1000).setStartDelay(400).start();
+        greet.animate().translationY(80).alpha(1).setDuration(1000).setStartDelay(400).start();
+        greet2.animate().translationY(-50).alpha(1).setDuration(1000).setStartDelay(400).start();
 
         new Handler().postDelayed(new Runnable() {
+            Intent homeIntent;
+
             @Override
             public void run() {
-                Intent loginIntent = new Intent(getApplicationContext(), Login.class);
-                Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
-//                startActivity(intent);
-//                finish();
-                SharedPreferences sharedPreferences =  getSharedPreferences(Login.Auth_Pref, 0);
-                //Pair pair1=new Pair<View,String>(blink,"logoimg");
-                //Pair pair2=new Pair<View,String>(greet2,"logotxt");
-                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
 
-                ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this, android.util.Pair.create(lottiesplash,"logoimg"),android.util.Pair.create(greet2,"logotxt"));
 
-                if(!isLoggedIn) {
-                    startActivity(loginIntent, options.toBundle());
-                }else {
-                    startActivity(homeIntent, options.toBundle());
-                }
+                Intent onBoardingIntent = new Intent(getApplicationContext(), Onboarding.class);
+                startActivity(onBoardingIntent);
+                Onboarding=getSharedPreferences("Onboarding",MODE_PRIVATE);
                 finish();
+//                boolean isFirstTime = Onboarding.getBoolean("firsttime",true);
+//                if(isFirstTime){
+//                    SharedPreferences.Editor editor=Onboarding.edit();
+//                    editor.putBoolean("firsttime",false);
+//                    editor.commit();
+//
+//                     homeIntent = new Intent(getApplicationContext(), Onboarding.class);
+//                }
+//                else{
+//                     homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+//                }
+//                homeIntent = new Intent(getApplicationContext(), Onboarding.class);
+////                startActivity(intent);
+////                finish();
+//                SharedPreferences sharedPreferences =  getSharedPreferences(Login.Auth_Pref, 0);
+//                //Pair pair1=new Pair<View,String>(blink,"logoimg");
+//                //Pair pair2=new Pair<View,String>(greet2,"logotxt");
+//                boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
+//
+//                ActivityOptions options=ActivityOptions.makeSceneTransitionAnimation(Splashscreen.this, android.util.Pair.create(lottiesplash,"logoimg"),android.util.Pair.create(greet2,"logotxt"));
+//
+//                if(!isLoggedIn) {
+//                    startActivity(loginIntent, options.toBundle());
+//                }else {
+//                    startActivity(homeIntent, options.toBundle());
+//                }
+//                finish();
                 //blink.setVisibility(View.VISIBLE);
             }
         },3000);
