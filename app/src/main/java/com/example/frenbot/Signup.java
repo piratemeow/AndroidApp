@@ -121,6 +121,13 @@ public class Signup extends AppCompatActivity {
                                         // Store user data in the document.
                                         Map<String, Object> userData = new HashMap<>();
                                         userData.put("name", userName);
+                                        userData.put("email", email);
+                                        userData.put("dob", "");
+                                        userData.put("phone", "");
+                                        userData.put("varsity", "");
+                                        userData.put("dept", "");
+                                        userData.put("session", "");
+                                        userData.put("profilePic", "");
                                         // Add other user-related data as needed.
 
                                         // Set the data in the document.
