@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/all"
+    <item android:id="@+id/add"
         android:title="Add Member"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/add"
+    <item android:id="@+id/remove"
         android:title="Remove Member"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/remove"
+    <item android:id="@+id/all"
         android:title="All Members"
         app:showAsAction="never"/>
 

@@ -210,6 +210,7 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                     return true;
                                 } else if (item.getItemId() == R.id.add) {
                                     NoticeGroup.flag = 2;
+                                    Toast.makeText(NoticeGroup.this, "add selected", Toast.LENGTH_SHORT).show();
                                     // Handle "leave" item click
                                     Intent intent = new Intent(NoticeGroup.this, ListClass.class);
                                     startActivity(intent);
@@ -217,7 +218,7 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                 } else if (item.getItemId() == R.id.remove) {
                                     NoticeGroup.flag = 3;
                                     // Handle "all" item click
-                                    Toast.makeText(NoticeGroup.this, "All selected", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(NoticeGroup.this, "remove selected", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(NoticeGroup.this, ListClass.class);
                                     startActivity(intent);
                                     return true;

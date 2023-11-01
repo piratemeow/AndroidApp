@@ -10,4 +10,8 @@ public class ListItem {
         this.name = name;
         this.profilePic = profilePic;
     }
+
+    public String getUserId() {
+        return userId;
+    }
 }
