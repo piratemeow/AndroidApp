@@ -50,7 +50,8 @@ public class Notice extends AppCompatActivity implements RCViewInterface {
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) RecyclerView recyclerView = findViewById(R.id.rcview);
         GroupAdapter rVadapter =new GroupAdapter(this,groupItems,this);
         recyclerView.setAdapter(rVadapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class Notice extends AppCompatActivity implements RCViewInterface {
         Intent intent =new Intent(Notice.this,NoticeGroup.class);
         intent.putExtra("groupName", groupItems.get(position).groupName);
         intent.putExtra("adminId", groupItems.get(position).adminID);
+        intent.putExtra("groupId", groupItems.get(position).groupID);
         startActivity(intent);
-
     }
 }

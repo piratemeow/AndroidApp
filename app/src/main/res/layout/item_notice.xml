@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:background="#6B7385"
+    android:layout_marginBottom="15dp"
     android:orientation="vertical">
 
     <TextView
@@ -12,7 +13,7 @@
         android:id="@+id/noticeTextView"
         android:textColor="@color/White"
         android:textSize="20dp"
-        android:text="This is your notice." />
+         />
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,6 +22,6 @@
         android:textColor="@color/White"
         android:layout_gravity="end"
         android:textSize="15dp"
-        android:text="Timestamp" />
+         />
 </LinearLayout>
 
