@@ -39,9 +39,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Edit_Profile extends AppCompatActivity {
+public class Edit_Profile extends AppCompatActivity implements OnDataSavedListener{
     private static final int REQUEST_CODE = 123;
-//    String nam, phon, birth, varsit, dep, sess, email, pic;
     ImageView profilePic;
     String imgPath;
     EditText name, phone, dob, varsity, dept, session;
@@ -161,6 +160,7 @@ public class Edit_Profile extends AppCompatActivity {
                     userData.put("dept", dept.getText().toString());
                     userData.put("session", session.getText().toString());
                     userData.put("email", gmail.getText().toString());
+                    userData.put("userId", userId);
 
                     if(fileUrl != null) {
                         String type;
@@ -184,6 +184,7 @@ public class Edit_Profile extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         // User data has been successfully added.
+                                        onDataSaved(userData);
                                         finish();
                                     }
                                 });
@@ -200,6 +201,7 @@ public class Edit_Profile extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 // User data has been successfully added.
+                                onDataSaved(userData);
                                 finish();
                             }
                         });
@@ -229,6 +231,16 @@ public class Edit_Profile extends AppCompatActivity {
         Picasso.get().load(downloadUri).into(profilePic);
     }
 
+    @Override
+    public void onDataSaved(Map<String, String> updatedData) {
+        // Notify the ProfileFragment with the updated data
+        ProfileFragment profileFragment = (ProfileFragment) getSupportFragmentManager().findFragmentByTag("ProfileFragmentTag");
 
+        if (profileFragment != null) {
+            profileFragment.updateUI(updatedData);
+        } else {
+            Toast.makeText(this, "null fragment", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

@@ -98,6 +98,9 @@
             android:name=".NoticeGroup"
             android:exported="true" />
         <activity
+            android:name=".ListClass"
+            android:exported="true" />
+        <activity
             android:name=".CreateGroup"
             android:exported="true" />
         <activity

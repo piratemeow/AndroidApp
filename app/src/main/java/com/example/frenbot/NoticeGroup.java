@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.opengl.Visibility;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,7 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
     TextInputEditText message;
     public static String editTime;
     public static String editUUID;
+    public static int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,6 +173,82 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
         recyclerView.setAdapter(rVadapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+
+
+        ImageView menuIcon;
+        menuIcon = findViewById(R.id.menu);
+        menuIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Show a popup menu when the menu icon is clicked
+                PopupMenu popupMenu = new PopupMenu(NoticeGroup.this, menuIcon);
+                MenuInflater inflater = popupMenu.getMenuInflater();
+
+                if (user != null) {
+                    String userId = user.getUid();
+                    if(userId.equals(adminId)) {
+                        inflater.inflate(R.menu.admin_menu, popupMenu.getMenu());
+                    } else {
+                        inflater.inflate(R.menu.menu, popupMenu.getMenu());
+                    }
+                }
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        if (user != null) {
+                            String userId = user.getUid();
+                            if(userId.equals(adminId)) {
+                                if (item.getItemId() == R.id.all) {
+                                    NoticeGroup.flag = 1;
+                                    // Handle "all" item click
+                                    Toast.makeText(NoticeGroup.this, "All selected", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(NoticeGroup.this, ListClass.class);
+                                    startActivity(intent);
+                                    return true;
+                                } else if (item.getItemId() == R.id.add) {
+                                    NoticeGroup.flag = 2;
+                                    // Handle "leave" item click
+                                    Intent intent = new Intent(NoticeGroup.this, ListClass.class);
+                                    startActivity(intent);
+                                    return true;
+                                } else if (item.getItemId() == R.id.remove) {
+                                    NoticeGroup.flag = 3;
+                                    // Handle "all" item click
+                                    Toast.makeText(NoticeGroup.this, "All selected", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(NoticeGroup.this, ListClass.class);
+                                    startActivity(intent);
+                                    return true;
+                                } else if (item.getItemId() == R.id.delete) {
+                                    // Handle "leave" item click
+                                    return true;
+                                }
+                            } else {
+                                inflater.inflate(R.menu.menu, popupMenu.getMenu());
+                                if (item.getItemId() == R.id.all) {
+                                    NoticeGroup.flag = 1;
+                                    // Handle "all" item click
+                                    Toast.makeText(NoticeGroup.this, "All selected", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(NoticeGroup.this, ListClass.class);
+                                    startActivity(intent);
+                                    return true;
+                                } else if (item.getItemId() == R.id.leave) {
+                                    // Handle "leave" item click
+                                    Toast.makeText(NoticeGroup.this, "Leave selected", Toast.LENGTH_SHORT).show();
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                });
+
+                popupMenu.show();
+            }
+        });
     }
 
     @Override
@@ -221,6 +301,13 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                         });
                 return true;
         }
+        return true;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 }

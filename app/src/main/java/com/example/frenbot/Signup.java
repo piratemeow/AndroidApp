@@ -128,6 +128,7 @@ public class Signup extends AppCompatActivity {
                                         userData.put("dept", "");
                                         userData.put("session", "");
                                         userData.put("profilePic", "");
+                                        userData.put("userId", userId);
                                         // Add other user-related data as needed.
 
                                         // Set the data in the document.

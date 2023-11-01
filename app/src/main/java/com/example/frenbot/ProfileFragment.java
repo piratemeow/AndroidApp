@@ -26,6 +26,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
@@ -110,5 +111,13 @@ public class ProfileFragment extends Fragment {
 
     private void loadAndDisplayImage(String downloadUri) {
         Picasso.get().load(downloadUri).into(profilePic);
+    }
+
+    public void updateUI(Map<String, String> updatedData) {
+        // Update your UI components with the updated data
+        // For example:
+        nameText.setText(updatedData.get("name"));
+        gmail.setText(updatedData.get("email"));
+        // Update other UI components
     }
 }

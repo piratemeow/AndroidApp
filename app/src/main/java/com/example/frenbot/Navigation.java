@@ -27,8 +27,6 @@ public class Navigation extends AppCompatActivity implements DrawerAdapter.OnIte
     private static final int POS_PROFILE = 1;
     private static final int POS_ABOUT_US = 2;
     private static final int POS_LOGOUT = 3;
-
-
     private String[] screenTitles;
     private Drawable[] screenIcons;
 
@@ -77,22 +75,23 @@ public class Navigation extends AppCompatActivity implements DrawerAdapter.OnIte
         if(position==POS_DASHBOARD){
             DashboardFragment dashboardFragment= new DashboardFragment();
             transaction.replace(R.id.container,dashboardFragment);
-
+            transaction.addToBackStack(null);
         }
         else if(position==POS_PROFILE){
             ProfileFragment profileFragment= new ProfileFragment();
-            transaction.replace(R.id.container,profileFragment);
+            transaction.replace(R.id.container,profileFragment, "ProfileFragmentTag");
+            transaction.addToBackStack("ProfileFragmentTag");
         }
         else if(position==POS_ABOUT_US){
             AboutUsFragment aboutusFragment= new AboutUsFragment();
             transaction.replace(R.id.container,aboutusFragment);
+            transaction.addToBackStack(null);
         }
         else if(position==POS_LOGOUT){
             finish();
         }
 
         slidingRootNav.closeMenu();
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
