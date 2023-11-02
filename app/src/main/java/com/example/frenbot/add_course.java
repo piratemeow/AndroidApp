@@ -114,7 +114,6 @@ public class add_course extends AppCompatActivity {
                     course.put("archive", isArchived);
 
                     if(Objects.equals(getIntent().getStringExtra("uuid"), "")) {
-                        Toast.makeText(add_course.this, "create course", Toast.LENGTH_SHORT).show();
                         coursesCollection.document(courseId)
                                 .set(course)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

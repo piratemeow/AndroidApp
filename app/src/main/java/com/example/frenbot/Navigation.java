@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -88,6 +89,10 @@ public class Navigation extends AppCompatActivity implements DrawerAdapter.OnIte
             transaction.addToBackStack(null);
         }
         else if(position==POS_LOGOUT){
+            SharedPreferences sharedPreferences = getSharedPreferences(Login.Auth_Pref, 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("isLoggedIn",false);
+            editor.commit();
             finish();
         }
 

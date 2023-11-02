@@ -161,6 +161,9 @@ public class Sos extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             // User data has been successfully added.
                             Toast.makeText(Sos.this, "database updated", Toast.LENGTH_SHORT).show();
+                            messageNumberEditText.setText("");
+                            messageEditText.setText("");
+                            callNumberEditText.setText("");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

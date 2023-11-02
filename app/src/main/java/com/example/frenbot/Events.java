@@ -194,7 +194,7 @@ public class Events extends AppCompatActivity implements RCViewInterface {
         intent.putExtra("title",eventmodels.get(position).getTitle());
         intent.putExtra("place",eventmodels.get(position).getPlace());
         intent.putExtra("time",eventmodels.get(position).getTime());
-        intent.putExtra("uuid",eventmodels.get(position).getTime());
+        intent.putExtra("uuid",eventmodels.get(position).uuid);
         startActivity(intent);
     }
 }

@@ -101,6 +101,9 @@
             android:name=".ListClass"
             android:exported="true" />
         <activity
+            android:name=".ResponseList"
+            android:exported="true" />
+        <activity
             android:name=".CreateGroup"
             android:exported="true" />
         <activity

@@ -243,7 +243,7 @@ public class Edit_Profile extends AppCompatActivity implements OnDataSavedListen
         if (profileFragment != null) {
             profileFragment.updateUI(updatedData);
         } else {
-            Toast.makeText(this, "null fragment", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show();
         }
     }
 

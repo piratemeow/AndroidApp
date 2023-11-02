@@ -110,35 +110,18 @@
                     android:layout_height="wrap_content"/>
                 <Button
                     android:id="@+id/interBut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="INTERESTED"
-                    android:layout_margin="10dp"
-                    />
-                <TextView
-                    android:padding="10dp"
-                    android:textColor="@color/Black"
-                    android:textSize="20dp"
-                    android:text="x interested"
-                    android:id="@+id/interText"
-                    app:layout_constraintTop_toTopOf="@id/constraint"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/goBut"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Going"
+                    android:gravity="center"
                     android:layout_margin="10dp"
+                    android:textAlignment="center"
                     />
-
                 <TextView
                     android:padding="10dp"
                     android:textColor="@color/Black"
                     android:textSize="20dp"
-                    android:text="x going"
-                    android:id="@+id/goText"
+                    android:textAlignment="center"
+                    android:id="@+id/interText"
                     app:layout_constraintTop_toTopOf="@id/constraint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -146,16 +129,16 @@
             </LinearLayout>
 
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_gravity="right"
-                android:id="@+id/create_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/Orange"
-                app:maxImageSize="30dp"
-                app:tint="@null"
-                android:layout_margin="20dp"
-                android:src="@drawable/edit"/>
+<!--            <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--                android:layout_gravity="right"-->
+<!--                android:id="@+id/create_event"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:backgroundTint="@color/Orange"-->
+<!--                app:maxImageSize="30dp"-->
+<!--                app:tint="@null"-->
+<!--                android:layout_margin="20dp"-->
+<!--                android:src="@drawable/edit"/>-->
         </LinearLayout>
 
 

@@ -24,7 +24,6 @@ public class Notice extends AppCompatActivity implements RCViewInterface {
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Toast.makeText(this, "Notice", Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
         ImageView back=findViewById(R.id.back);
