@@ -56,6 +56,7 @@ public class DashboardFragment extends Fragment {
             public void onClick(View v) {
                 // Open the EventActivity when eventCard is clicked
                 Intent intent = new Intent(getActivity(), Events.class);
+                intent.putExtra("flag", "one");
                 startActivity(intent);
             }
         });

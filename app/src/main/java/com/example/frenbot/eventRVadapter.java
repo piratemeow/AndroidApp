@@ -70,9 +70,9 @@ public class eventRVadapter extends RecyclerView.Adapter<eventRVadapter.MyViewHo
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.setHeaderTitle("Options");
-            contextMenu.add(0, 1, 0, "Edit");
-            contextMenu.add(0, 3, 1, "Delete");
+//            contextMenu.setHeaderTitle("Options");
+//            contextMenu.add(0, 1, 0, "Edit");
+//            contextMenu.add(0, 3, 1, "Delete");
         }
     }
 }

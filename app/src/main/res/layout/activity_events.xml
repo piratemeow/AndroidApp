@@ -79,6 +79,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".25"
                     android:gravity="center"
+                    android:id="@+id/MyEvents"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/im1"
@@ -120,6 +121,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight=".25"
                     android:gravity="center"
+                    android:id="@+id/pastEvents"
                     android:orientation="vertical">
                     <ImageView
                         android:id="@+id/im4"
