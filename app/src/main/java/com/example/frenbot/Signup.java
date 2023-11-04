@@ -140,6 +140,7 @@ public class Signup extends AppCompatActivity {
                                                         Toast.makeText(Signup.this, "Account created and database updated.", Toast.LENGTH_SHORT).show();
                                                         Intent intent = new Intent(Signup.this, Navigation.class);
                                                         startActivity(intent);
+                                                        finish();
                                                     }
                                                 })
                                                 .addOnFailureListener(new OnFailureListener() {

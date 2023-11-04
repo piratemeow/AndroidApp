@@ -1,5 +1,7 @@
 package com.example.frenbot;
 
+import static com.example.frenbot.Constants.TOPIC;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.opengl.Visibility;
@@ -29,6 +31,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.ktx.Firebase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +42,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
 
@@ -62,6 +70,8 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView name = findViewById(R.id.name);
         message = findViewById((R.id.message));
         cancelEdit = findViewById(R.id.cancelEdit);
+
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
 
         String groupName = getIntent().getStringExtra("groupName");
         String adminId = getIntent().getStringExtra("adminId");
@@ -156,6 +166,9 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                 intent.putExtra("adminId", adminId);
                                 intent.putExtra("groupId", groupId);
                                 startActivity(intent);
+
+                                PushNotification pushNotification = new PushNotification(new NotificationData(groupName, text), TOPIC);
+                                sendNotification(pushNotification);
 
                             }
                         })
@@ -363,5 +376,21 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    private void sendNotification(PushNotification notification) {
+        ApiUtilities.getClient().sendNotification(notification).enqueue(new Callback<PushNotification>() {
+            @Override
+            public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
+                if(response.isSuccessful()) {
+                    Toast.makeText(NoticeGroup.this, "success", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PushNotification> call, Throwable t) {
+
+            }
+        });
     }
 }
