@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,6 +42,7 @@ public class Event_Details extends AppCompatActivity {
         String place=getIntent().getStringExtra("place");
         String time=getIntent().getStringExtra("time");
         String uuid=getIntent().getStringExtra("uuid");
+        String desc = getIntent().getStringExtra("desc");
         selectedEvent = uuid;
         isInterested = false;
 
@@ -49,7 +51,9 @@ public class Event_Details extends AppCompatActivity {
         TextView tle=findViewById(R.id.title);
         TextView tm=findViewById(R.id.time);
         TextView location=findViewById(R.id.location);
+        TextView details = findViewById(R.id.details);
         ImageView back=findViewById(R.id.back);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +63,7 @@ public class Event_Details extends AppCompatActivity {
         tle.setText(title);
         tm.setText(time);
         location.setText(place);
+        details.setText(desc);
         interBut.setText("Are you interested ?");
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -122,6 +127,7 @@ public class Event_Details extends AppCompatActivity {
                                                 intent.putExtra("place",place);
                                                 intent.putExtra("time",time);
                                                 intent.putExtra("uuid",user.getUid());
+                                                intent.putExtra("desc",desc);
                                                 startActivity(intent);
                                             }
                                         });
@@ -137,6 +143,7 @@ public class Event_Details extends AppCompatActivity {
                                                         intent.putExtra("place",place);
                                                         intent.putExtra("time",time);
                                                         intent.putExtra("uuid",user.getUid());
+                                                        intent.putExtra("desc",desc);
                                                         startActivity(intent);
                                                     }
                                                 });

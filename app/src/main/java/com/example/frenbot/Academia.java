@@ -117,6 +117,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
         intent.putExtra("id",coursemodels.get(position).getid());
         intent.putExtra("instructor",coursemodels.get(position).getinstructor());
         intent.putExtra("uuid",coursemodels.get(position).getUuid());
+        intent.putExtra("desc",coursemodels.get(position).getDesc());
 
         startActivity(intent);
 

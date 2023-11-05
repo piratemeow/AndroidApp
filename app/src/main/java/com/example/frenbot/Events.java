@@ -185,7 +185,8 @@ public class Events extends AppCompatActivity implements RCViewInterface {
             String location = map.get("location").toString();
             String date = map.get("date").toString();
             String uuid = map.get("uuid").toString();
-            eventmodels.add(new eventmodel(title,date,location, uuid));
+            String desc = map.get("description").toString();
+            eventmodels.add(new eventmodel(title,date,location, uuid, desc));
         }
         rVadapter.notifyDataSetChanged();
     }
@@ -198,6 +199,7 @@ public class Events extends AppCompatActivity implements RCViewInterface {
         intent.putExtra("place",eventmodels.get(position).getPlace());
         intent.putExtra("time",eventmodels.get(position).getTime());
         intent.putExtra("uuid",eventmodels.get(position).uuid);
+        intent.putExtra("desc",eventmodels.get(position).desc);
         startActivity(intent);
     }
 }

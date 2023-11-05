@@ -25,12 +25,14 @@ public class Course_Details extends AppCompatActivity {
         String id1=getIntent().getStringExtra("id");
         String ins=getIntent().getStringExtra("instructor");
         String uuid = getIntent().getStringExtra("uuid");
+        String desc = getIntent().getStringExtra("desc");
         Course_Details.courseUUID = uuid;
 
         TextView tle=findViewById(R.id.ctitle);
         TextView id=findViewById(R.id.course_id);
         TextView instructor=findViewById(R.id.instructor);
         ImageView back=findViewById(R.id.back);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView courseDesc = findViewById(R.id.courseDesc);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button links=findViewById(R.id.links);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button files=findViewById(R.id.files);
         back.setOnClickListener(new View.OnClickListener() {
@@ -58,5 +60,6 @@ public class Course_Details extends AppCompatActivity {
         tle.setText(title);
         id.setText(id1);
         instructor.setText(ins);
+        courseDesc.setText(desc);
     }
 }
