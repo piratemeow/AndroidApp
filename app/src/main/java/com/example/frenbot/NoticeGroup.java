@@ -36,10 +36,13 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.UUID;
 
@@ -71,7 +74,8 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
         message = findViewById((R.id.message));
         cancelEdit = findViewById(R.id.cancelEdit);
 
-        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
 
         String groupName = getIntent().getStringExtra("groupName");
         String adminId = getIntent().getStringExtra("adminId");
@@ -83,8 +87,8 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
 
         name.setText(groupName);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + user.getUid());
+
 
         if (user != null) {
             String userId = user.getUid();
@@ -167,6 +171,7 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                 intent.putExtra("groupId", groupId);
                                 startActivity(intent);
 
+                                Constants.intentFlag = "notice";
                                 PushNotification pushNotification = new PushNotification(new NotificationData(groupName, text), TOPIC);
                                 sendNotification(pushNotification);
 
@@ -379,18 +384,48 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
     }
 
     private void sendNotification(PushNotification notification) {
-        ApiUtilities.getClient().sendNotification(notification).enqueue(new Callback<PushNotification>() {
-            @Override
-            public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
-                if(response.isSuccessful()) {
-                    Toast.makeText(NoticeGroup.this, "success", Toast.LENGTH_SHORT).show();
-                }
-            }
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        List<String> temp = new ArrayList<>();
+        CollectionReference noticeCollection = db.collection("Notice");
+        DocumentReference noticeGp = noticeCollection.document(NoticeGroup.staticGroup);
+        CollectionReference allMember = noticeGp.collection("Member");
+        allMember.get()
+                .addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        // Clear existing data before adding new data
+                        for (QueryDocumentSnapshot document1 : task1.getResult()) {
+                            String uuid = document1.getString("userId");
+                            temp.add(uuid);
+                        }
+                        temp.add(NoticeGroup.gpAdmin);
+                        for (int i = 0; i < temp.size(); i++) {
 
-            @Override
-            public void onFailure(Call<PushNotification> call, Throwable t) {
+                                // Create a new instance of PushNotification for each target user
+                                PushNotification individualNotification = new PushNotification(notification.getData());
+                                individualNotification.setTo("/topics/" + temp.get(i));
 
+                                ApiUtilities.getClient().sendNotification(individualNotification).enqueue(new Callback<PushNotification>() {
+                                    @Override
+                                    public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
+                                        if (response.isSuccessful()) {
+                                            // Notification sent successfully to the target user
+
+                                        } else {
+                                            // Handle the case where the notification failed to send
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<PushNotification> call, Throwable t) {
+                                        // Handle failure to send the notification
+                                    }
+                                });
+                        // Notify the RecyclerView to refresh
+                    }
             }
         });
+
     }
+
+
 }

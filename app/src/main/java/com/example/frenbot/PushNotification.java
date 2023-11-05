@@ -12,6 +12,10 @@ public class PushNotification {
         this.data = data;
     }
 
+    public PushNotification(NotificationData data) {
+        this.data = data;
+    }
+
     public String getTo() {
         return to;
     }

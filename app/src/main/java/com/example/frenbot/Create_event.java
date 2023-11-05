@@ -1,5 +1,7 @@
 package com.example.frenbot;
 
+import static com.example.frenbot.Constants.TOPIC;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,14 +25,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.ktx.Firebase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Create_event extends AppCompatActivity {
     TextInputEditText event_name, desc,note,location;
@@ -138,6 +147,11 @@ public class Create_event extends AppCompatActivity {
 
                                     Intent intent2 = new Intent();
                                     setResult(RESULT_OK, intent2);
+
+                                    Constants.intentFlag = "event";
+                                    PushNotification pushNotification = new PushNotification(new NotificationData(event_nam, event_des), TOPIC);
+                                    sendNotification(pushNotification);
+
                                     finish();
                                 }
                             });
@@ -164,5 +178,29 @@ public class Create_event extends AppCompatActivity {
             }
         },year,month,day);
         dialog.show();
+    }
+
+    private void sendNotification(PushNotification notification) {
+        PushNotification individualNotification = new PushNotification(notification.getData());
+        individualNotification.setTo(TOPIC);
+
+        ApiUtilities.getClient().sendNotification(individualNotification).enqueue(new Callback<PushNotification>() {
+            @Override
+            public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
+                if (response.isSuccessful()) {
+                    // Notification sent successfully to the target user
+
+                } else {
+                    // Handle the case where the notification failed to send
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PushNotification> call, Throwable t) {
+                // Handle failure to send the notification
+            }
+        });
+        // Notify the RecyclerView to refresh
+
     }
 }

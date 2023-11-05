@@ -1,5 +1,7 @@
 package com.example.frenbot;
 
+import static com.example.frenbot.Constants.TOPIC;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.checkerframework.checker.units.qual.A;
 
@@ -63,7 +66,7 @@ public class Events extends AppCompatActivity implements RCViewInterface {
         RecyclerView recyclerView=findViewById(R.id.reventview);
         myEvents = findViewById(R.id.MyEvents);
         pastEvents = findViewById(R.id.pastEvents);
-
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
         getFirestoreEvents();
         System.out.println(this.event_data.size());
         flag = getIntent().getStringExtra("flag");

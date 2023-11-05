@@ -9,12 +9,22 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class FirebaseService extends FirebaseMessagingService {
@@ -22,7 +32,12 @@ public class FirebaseService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent;
+        if(Objects.equals(Constants.intentFlag, "event")) {
+            intent = new Intent(this, Events.class);
+        } else {
+            intent = new Intent(this, Notice.class);
+        }
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -49,4 +64,5 @@ public class FirebaseService extends FirebaseMessagingService {
 
         notificationManager.notify(notificationId, notification.build());
     }
+
 }
