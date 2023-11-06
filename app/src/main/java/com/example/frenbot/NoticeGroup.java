@@ -172,7 +172,7 @@ public class NoticeGroup extends AppCompatActivity implements RCViewInterface{
                                 startActivity(intent);
 
                                 Constants.intentFlag = "notice";
-                                PushNotification pushNotification = new PushNotification(new NotificationData(groupName, text), TOPIC);
+                                PushNotification pushNotification = new PushNotification(new NotificationData("New Notice from " + groupName, text), TOPIC);
                                 sendNotification(pushNotification);
 
                             }
