@@ -1,5 +1,7 @@
 package com.example.frenbot;
 
+import static com.example.frenbot.Constants.TOPIC;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class DashboardFragment extends Fragment {
 
@@ -30,6 +36,12 @@ public class DashboardFragment extends Fragment {
         academiaCard = root.findViewById(R.id.academiacard);
         eventCard = root.findViewById(R.id.eventcard);
         sosCard = root.findViewById(R.id.soscard);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/" + user.getUid());
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC);
 
         // Set click listeners for the CardViews
         financeCard.setOnClickListener(new View.OnClickListener() {

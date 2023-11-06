@@ -112,16 +112,17 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                                 String instructor = document.getString("instructor");
                                 String uuid = document.getString("uuid");
                                 String desc = document.getString("description");
+                                String sharedBy = document.getString("sharedBy");
                                 boolean archive = Boolean.TRUE.equals(document.getBoolean("archive"));
 
                                 if(Academia.isArchive) {
                                     if(archive) {
-                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive);
+                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive, sharedBy);
                                         coursemodels.add(courseModel);
                                     }
                                 } else {
                                     if(!archive) {
-                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive);
+                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive, sharedBy);
                                         coursemodels.add(courseModel);
                                     }
                                 }

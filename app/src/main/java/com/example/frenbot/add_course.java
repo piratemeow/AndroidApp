@@ -111,6 +111,10 @@ public class add_course extends AppCompatActivity {
                     course.put("id", id);
                     course.put("uuid", courseId);
                     boolean isArchived = getIntent().getBooleanExtra("archive", false);
+                    String sharedBy = getIntent().getStringExtra("sharedBy");
+                    if(sharedBy != null) {
+                        course.put("sharedBy", sharedBy);
+                    }
                     course.put("archive", isArchived);
 
                     if(Objects.equals(getIntent().getStringExtra("uuid"), "")) {

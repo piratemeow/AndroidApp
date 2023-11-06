@@ -64,7 +64,16 @@ public class Create_event extends AppCompatActivity {
         create = findViewById(R.id.Create_event);
 
         db = FirebaseFirestore.getInstance();
+        String nam = getIntent().getStringExtra("name");
+        String des = getIntent().getStringExtra("desc");
+        String not = getIntent().getStringExtra("note");
+        String lock = getIntent().getStringExtra("location");
+        String uid = getIntent().getStringExtra("uuid");
 
+        event_name.setText(nam);
+        desc.setText(des);
+        note.setText(not);
+        location.setText(lock);
 
 
         Calendar calender = Calendar.getInstance();
@@ -87,6 +96,9 @@ public class Create_event extends AppCompatActivity {
             }
         });
 
+        if(!Objects.equals(uid, "")) {
+            create.setText("Update");
+        }
 
         create.setOnClickListener(new View.OnClickListener() {
 
@@ -131,7 +143,12 @@ public class Create_event extends AppCompatActivity {
                     }
 
                     CollectionReference eventCollection = db.collection("Events");
-                    String courseId = UUID.randomUUID().toString();
+                    String courseId;
+                    if(Objects.equals(uid, "")) {
+                        courseId = UUID.randomUUID().toString();
+                    } else {
+                        courseId = uid;
+                    }
                     events.put("uuid", courseId);
                     DocumentReference eventDoc = eventCollection.document(courseId);
 

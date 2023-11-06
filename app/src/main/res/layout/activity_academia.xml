@@ -120,28 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-        <LinearLayout
-            android:gravity="center"
-            android:layout_weight=".25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/share"
-                android:src="@drawable/share"
-                android:backgroundTint="#FFA500"
-                app:tint="@null"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-            <TextView
-                android:textColor="@color/Black"
-                android:text="Shared"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+
 
     </LinearLayout>
 

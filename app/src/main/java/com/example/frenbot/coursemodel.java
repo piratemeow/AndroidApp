@@ -7,6 +7,17 @@ public class coursemodel {
     String uuid;
     String desc;
     boolean archive;
+    String sharedBy;
+
+    public coursemodel(String course, String id, String instructor, String uuid, String desc, boolean archive, String sharedBy) {
+        this.course = course;
+        this.id = id;
+        this.instructor = instructor;
+        this.uuid = uuid;
+        this.desc = desc;
+        this.archive = archive;
+        this.sharedBy = sharedBy;
+    }
 
     public coursemodel(String course, String id, String instructor, String uuid, String desc, boolean archive) {
         this.course = course;

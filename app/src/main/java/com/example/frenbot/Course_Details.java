@@ -11,6 +11,12 @@ import android.widget.Button;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +32,14 @@ public class Course_Details extends AppCompatActivity {
         String ins=getIntent().getStringExtra("instructor");
         String uuid = getIntent().getStringExtra("uuid");
         String desc = getIntent().getStringExtra("desc");
+        String sharedBy = getIntent().getStringExtra("sharedBy");
         Course_Details.courseUUID = uuid;
 
         TextView tle=findViewById(R.id.ctitle);
         TextView id=findViewById(R.id.course_id);
         TextView instructor=findViewById(R.id.instructor);
         ImageView back=findViewById(R.id.back);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView shared = findViewById(R.id.shared);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) TextView courseDesc = findViewById(R.id.courseDesc);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button links=findViewById(R.id.links);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button files=findViewById(R.id.files);
@@ -61,5 +69,23 @@ public class Course_Details extends AppCompatActivity {
         id.setText(id1);
         instructor.setText(ins);
         courseDesc.setText(desc);
+
+        if(sharedBy == null) {
+            shared.setVisibility(View.GONE);
+        } else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference userDocument = db.collection("Users").document(sharedBy);
+
+            userDocument.get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                shared.setText("Shared by " + documentSnapshot.getString("name"));
+                            }
+                        }
+                    });
+        }
+
     }
 }

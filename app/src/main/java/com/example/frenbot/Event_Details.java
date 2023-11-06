@@ -43,6 +43,7 @@ public class Event_Details extends AppCompatActivity {
         String time=getIntent().getStringExtra("time");
         String uuid=getIntent().getStringExtra("uuid");
         String desc = getIntent().getStringExtra("desc");
+        String note = getIntent().getStringExtra("note");
         selectedEvent = uuid;
         isInterested = false;
 
@@ -53,11 +54,24 @@ public class Event_Details extends AppCompatActivity {
         TextView location=findViewById(R.id.location);
         TextView details = findViewById(R.id.details);
         ImageView back=findViewById(R.id.back);
+        FloatingActionButton edit_event = findViewById(R.id.edit_event);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        edit_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Event_Details.this,Create_event.class);
+                intent.putExtra("name", title);
+                intent.putExtra("desc", desc);
+                intent.putExtra("note", note);
+                intent.putExtra("location", place);
+                intent.putExtra("uuid", uuid);
+                startActivity(intent);
             }
         });
         tle.setText(title);
