@@ -70,7 +70,6 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                 intent.putExtra("id", "");
                 intent.putExtra("instructor", "");
                 intent.putExtra("uuid", "");
-                intent.putExtra("archive", false);
                 startActivityForResult(intent, finish_code);
             }
         });
@@ -156,7 +155,7 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                 startActivityForResult(intent, finish_code);
                 return true;
 
-            case 3: // Archive
+            case 4: // Archive
                 // Handle the "Archive" action here using the 'position'
                 Map<String, Object> course = new HashMap<>();
                 course.put("title", coursemodels.get(position).getcourse());
@@ -208,6 +207,19 @@ public class Academia extends AppCompatActivity implements RCViewInterface {
                                 // Handle the error
                             }
                         });
+                return true;
+
+            case 3: // share
+                // Handle the "Delete" action here using the 'position'
+                Intent intent5 = new Intent(Academia.this, ShareList.class);
+                intent5.putExtra("isArchive", isArchive);
+                intent5.putExtra("title", coursemodels.get(position).getcourse());
+                intent5.putExtra("desc", coursemodels.get(position).getDesc());
+                intent5.putExtra("id", coursemodels.get(position).getid());
+                intent5.putExtra("instructor", coursemodels.get(position).getinstructor());
+                intent5.putExtra("uuid", coursemodels.get(position).getUuid());
+                intent5.putExtra("archive", coursemodels.get(position).getArchive());
+                startActivity(intent5);
                 return true;
 
             default:

@@ -185,11 +185,12 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             contextMenu.add(0, 1, 0, "Edit");
-            contextMenu.add(0, 2, 1, "Delete");
+            contextMenu.add(0, 2, 0, "Delete");
+            contextMenu.add(0, 3, 0, "Share");
             if(Academia.isArchive) {
-                contextMenu.add(0, 3, 1, "Unarchive");
+                contextMenu.add(0, 4, 0, "Unarchive");
             } else {
-                contextMenu.add(0, 3, 1, "Archive");
+                contextMenu.add(0, 4, 0, "Archive");
             }
         }
 

@@ -102,6 +102,9 @@
             android:name=".ListClass"
             android:exported="true" />
         <activity
+            android:name=".ShareList"
+            android:exported="true" />
+        <activity
             android:name=".ResponseList"
             android:exported="true" />
         <activity
