@@ -166,6 +166,9 @@ public class Signup extends AppCompatActivity {
 
             }
         });
+        fb.setVisibility(View.GONE);
+        google.setVisibility(View.GONE);
+        linkedin.setVisibility(View.GONE);
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

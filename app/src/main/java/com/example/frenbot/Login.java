@@ -59,6 +59,8 @@ public class Login extends AppCompatActivity {
         mail = findViewById(R.id.mail);
         password = findViewById(R.id.password);
         mAuth = FirebaseAuth.getInstance();
+        Button forgetPass = findViewById(R.id.forgotPass);
+        forgetPass.setVisibility(View.GONE);
 
 
         signup.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +115,9 @@ public class Login extends AppCompatActivity {
                         });
             }
         });
+        fb.setVisibility(View.GONE);
+        google.setVisibility(View.GONE);
+        linkedin.setVisibility(View.GONE);
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
