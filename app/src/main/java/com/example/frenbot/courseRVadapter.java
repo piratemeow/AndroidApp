@@ -56,6 +56,7 @@ package com.example.frenbot;
 //}
 
 import android.content.Context;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,12 +79,14 @@ import java.util.ArrayList;
 
 public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyViewHolder> {
 
+    private final RCViewInterface rcViewInterface;
     private Context context;
-    private ArrayList<coursemodel> coursemodels;
+    static ArrayList<coursemodel> coursemodels;
 
-    public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels) {
+    public courseRVadapter(Context context, ArrayList<coursemodel> coursemodels,RCViewInterface rcViewInterface) {
         this.context = context;
         this.coursemodels = coursemodels;
+        this.rcViewInterface=rcViewInterface;
         fetchDataFromFirestore(); // Fetch data from Firestore when the adapter is created
     }
 
@@ -103,12 +106,27 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
                         if (task.isSuccessful()) {
                             coursemodels.clear(); // Clear existing data before adding new data
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 String course = document.getString("title");
                                 String id = document.getString("id");
                                 String instructor = document.getString("instructor");
+                                String uuid = document.getString("uuid");
+                                String desc = document.getString("description");
+                                String sharedBy = document.getString("sharedBy");
+                                boolean archive = Boolean.TRUE.equals(document.getBoolean("archive"));
 
-                                coursemodel courseModel = new coursemodel(course, id, instructor);
-                                coursemodels.add(courseModel);
+                                if(Academia.isArchive) {
+                                    if(archive) {
+                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive, sharedBy);
+                                        coursemodels.add(courseModel);
+                                    }
+                                } else {
+                                    if(!archive) {
+                                        coursemodel courseModel = new coursemodel(course, id, instructor, uuid, desc, archive, sharedBy);
+                                        coursemodels.add(courseModel);
+                                    }
+                                }
+                                notifyDataSetChanged();
                             }
                             notifyDataSetChanged(); // Notify the RecyclerView to refresh
                         } else {
@@ -123,7 +141,7 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.courses_rview, parent, false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view,rcViewInterface);
     }
 
     @Override
@@ -138,15 +156,55 @@ public class courseRVadapter extends RecyclerView.Adapter<courseRVadapter.MyView
         return coursemodels.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder  implements View.OnCreateContextMenuListener,View.OnLongClickListener {
 
         TextView course, id, instructor;
+        public static int position;
 
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, RCViewInterface rcViewInterface) {
             super(itemView);
             course = itemView.findViewById(R.id.course);
             id = itemView.findViewById(R.id.id);
             instructor = itemView.findViewById(R.id.instructor);
+            itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnLongClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(rcViewInterface!=null){
+                        int pos=getAdapterPosition();
+
+                        if(pos!=RecyclerView.NO_POSITION){
+                            rcViewInterface.OnItemClick(pos);
+                        }
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.add(0, 1, 0, "Edit");
+            contextMenu.add(0, 2, 0, "Delete");
+            contextMenu.add(0, 3, 0, "Share");
+            if(Academia.isArchive) {
+                contextMenu.add(0, 4, 0, "Unarchive");
+            } else {
+                contextMenu.add(0, 4, 0, "Archive");
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                MyViewHolder.position = position;
+                System.out.println(position);
+                return false; // Consume the long click event
+            }
+            return false;
         }
     }
+
 }

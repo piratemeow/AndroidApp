@@ -7,21 +7,62 @@
     tools:context=".Create_event"
     android:background="#FFC862">
 
-    <LinearLayout
-        android:id="@+id/ll"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <LinearLayout
+            android:id="@+id/ll1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/l"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#292828"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageView
+            android:id="@+id/back"
+            android:src="@drawable/back"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/eventlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="New Event"
+            android:textColor="@color/White"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+
+
 
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:hint="Event Title"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
@@ -33,7 +74,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_margin="10dp"
             android:hint="Description"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
@@ -48,6 +89,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:hint="Location"
             style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
 
@@ -66,14 +108,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DATE"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="#292828"
             />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_margin="10dp"
             android:hint="Note"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
             <com.google.android.material.textfield.TextInputEditText
@@ -89,12 +131,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create Event"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_margin="10dp"
+            android:backgroundTint="#292828"
+
             />
 
 
 
     </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

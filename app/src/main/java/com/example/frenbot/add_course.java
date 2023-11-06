@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.ktx.Firebase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +46,24 @@ public class add_course extends AppCompatActivity {
         desc = findViewById(R.id.Description);
         instructor = findViewById(R.id.instructor);
 
+        courseName.setText(getIntent().getStringExtra("title"));
+        courseID.setText(getIntent().getStringExtra("id"));
+        instructor.setText(getIntent().getStringExtra("instructor"));
+        desc.setText(getIntent().getStringExtra("desc"));
+
+        ImageView back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         add = findViewById(R.id.add);
+
+        if(!Objects.equals(getIntent().getStringExtra("uuid"), "")) {
+            add.setText("Apply changes");
+        }
 
         add.setOnClickListener(new View.OnClickListener() {
 
@@ -56,15 +75,15 @@ public class add_course extends AppCompatActivity {
                 description = String.valueOf(desc.getText());
                 instruct = String.valueOf(instructor.getText());
 
-                if(TextUtils.isEmpty(title)) {
+                if(title.equals("")) {
                     Toast.makeText(add_course.this,"Enter course title",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(id)) {
+                if(id.equals("")) {
                     Toast.makeText(add_course.this,"Enter course id",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(TextUtils.isEmpty(instruct)) {
+                if(instruct.equals("")) {
                     Toast.makeText(add_course.this,"Enter course instructor",Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -78,31 +97,79 @@ public class add_course extends AppCompatActivity {
                     DocumentReference userDocument = db.collection("Users").document(userId);
                     CollectionReference coursesCollection = userDocument.collection("Course");
 
-                    String courseId = UUID.randomUUID().toString();
+                    String courseId;
+                    if(Objects.equals(getIntent().getStringExtra("uuid"), "")) {
+                        courseId = UUID.randomUUID().toString();
+                    } else {
+                        courseId = getIntent().getStringExtra("uuid");
+                    }
 
                     Map<String, Object> course = new HashMap<>();
-                    course.put("title",title);
-                    course.put("description",description);
-                    course.put("instructor",instruct);
-                    course.put("id",id);
+                    course.put("title", title);
+                    course.put("description", description);
+                    course.put("instructor", instruct);
+                    course.put("id", id);
+                    course.put("uuid", courseId);
+                    boolean isArchived = getIntent().getBooleanExtra("archive", false);
+                    String sharedBy = getIntent().getStringExtra("sharedBy");
+                    if(sharedBy != null) {
+                        course.put("sharedBy", sharedBy);
+                    }
+                    course.put("archive", isArchived);
 
-                    coursesCollection.document(courseId)
-                            .set(course)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    // User data has been successfully added.
-                                    Toast.makeText(add_course.this, "course added", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Handle the error.
-                                    Toast.makeText(add_course.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
+                    if(Objects.equals(getIntent().getStringExtra("uuid"), "")) {
+                        coursesCollection.document(courseId)
+                                .set(course)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // User data has been successfully added.
+                                        Toast.makeText(add_course.this, "course added", Toast.LENGTH_SHORT).show();
 
-                            });
+                                        Intent intent = new Intent(add_course.this, Academia.class);
+                                        startActivity(intent);
+
+                                        Intent intent2 = new Intent();
+                                        setResult(RESULT_OK, intent2);
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle the error.
+                                        Toast.makeText(add_course.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
+                    } else {
+                        coursesCollection.document(courseId)
+                                .update(course)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        // User data has been successfully added.
+                                        Toast.makeText(add_course.this, "course updated", Toast.LENGTH_SHORT).show();
+
+                                        Intent intent = new Intent(add_course.this, Academia.class);
+                                        intent.putExtra("isArchive", Academia.isArchive);
+
+                                        startActivity(intent);
+
+                                        Intent intent2 = new Intent();
+                                        setResult(RESULT_OK, intent2);
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        // Handle the error.
+                                        Toast.makeText(add_course.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
+                    }
 
                 }
             }

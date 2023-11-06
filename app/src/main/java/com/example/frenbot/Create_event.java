@@ -1,5 +1,7 @@
 package com.example.frenbot;
 
+import static com.example.frenbot.Constants.TOPIC;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,14 +22,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.ktx.Firebase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Create_event extends AppCompatActivity {
     TextInputEditText event_name, desc,note,location;
@@ -51,7 +64,16 @@ public class Create_event extends AppCompatActivity {
         create = findViewById(R.id.Create_event);
 
         db = FirebaseFirestore.getInstance();
+        String nam = getIntent().getStringExtra("name");
+        String des = getIntent().getStringExtra("desc");
+        String not = getIntent().getStringExtra("note");
+        String lock = getIntent().getStringExtra("location");
+        String uid = getIntent().getStringExtra("uuid");
 
+        event_name.setText(nam);
+        desc.setText(des);
+        note.setText(not);
+        location.setText(lock);
 
 
         Calendar calender = Calendar.getInstance();
@@ -59,6 +81,13 @@ public class Create_event extends AppCompatActivity {
         month = calender.get(Calendar.MONTH);
         day = calender.get(Calendar.DAY_OF_MONTH);
 
+        ImageView back=findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +96,9 @@ public class Create_event extends AppCompatActivity {
             }
         });
 
+        if(!Objects.equals(uid, "")) {
+            create.setText("Update");
+        }
 
         create.setOnClickListener(new View.OnClickListener() {
 
@@ -83,12 +115,16 @@ public class Create_event extends AppCompatActivity {
                 events.put("description",event_des);
                 events.put("location",event_loc);
                 events.put("note",event_note);
-                events.put("date",event_day+"-"+event_month+"-"+event_year);
-                events.put("creator",user.toString());
+                events.put("date", String.format(Locale.US, "%02d-%02d-%04d", event_day, event_month+1, event_year));
+
+                events.put("creator",user.getUid());
+                events.put("day", day);
+                events.put("month", month);
+                events.put("year", year);
 
 
                 if (!event_nam.isEmpty() && !event_des.isEmpty()
-                && !event_loc.isEmpty() && event_month!=0){
+                        && !event_loc.isEmpty() && event_month!=0){
 
 
                     Intent intent = new Intent(Intent.ACTION_INSERT);
@@ -106,17 +142,34 @@ public class Create_event extends AppCompatActivity {
                         Toast.makeText(Create_event.this, "No calender app", Toast.LENGTH_SHORT).show();
                     }
 
-                    db.collection("Events")
-                            .add(events)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    CollectionReference eventCollection = db.collection("Events");
+                    String courseId;
+                    if(Objects.equals(uid, "")) {
+                        courseId = UUID.randomUUID().toString();
+                    } else {
+                        courseId = uid;
+                    }
+                    events.put("uuid", courseId);
+                    DocumentReference eventDoc = eventCollection.document(courseId);
+
+                    eventDoc
+                            .set(events).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Toast.makeText(Create_event.this, "Successfully created the event", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Create_event.this, "Failed to create the event", Toast.LENGTH_SHORT).show();
+                                public void onSuccess(Void aVoid) {
+                                    // User data has been successfully added.
+
+                                    Intent intent = new Intent(Create_event.this, Events.class);
+                                    intent.putExtra("flag", "one");
+                                    startActivity(intent);
+
+                                    Intent intent2 = new Intent();
+                                    setResult(RESULT_OK, intent2);
+
+                                    Constants.intentFlag = "event";
+                                    PushNotification pushNotification = new PushNotification(new NotificationData(event_nam, event_des), TOPIC);
+                                    sendNotification(pushNotification);
+
+                                    finish();
                                 }
                             });
 
@@ -142,5 +195,29 @@ public class Create_event extends AppCompatActivity {
             }
         },year,month,day);
         dialog.show();
+    }
+
+    private void sendNotification(PushNotification notification) {
+        PushNotification individualNotification = new PushNotification(notification.getData());
+        individualNotification.setTo(TOPIC);
+
+        ApiUtilities.getClient().sendNotification(individualNotification).enqueue(new Callback<PushNotification>() {
+            @Override
+            public void onResponse(Call<PushNotification> call, Response<PushNotification> response) {
+                if (response.isSuccessful()) {
+                    // Notification sent successfully to the target user
+
+                } else {
+                    // Handle the case where the notification failed to send
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PushNotification> call, Throwable t) {
+                // Handle failure to send the notification
+            }
+        });
+        // Notify the RecyclerView to refresh
+
     }
 }

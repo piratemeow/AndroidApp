@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AboutUs">
+    <ScrollView
+        android:background="@color/Orange"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:background="@color/Orange"
         android:layout_width="match_parent"
@@ -203,5 +207,5 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
-
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
