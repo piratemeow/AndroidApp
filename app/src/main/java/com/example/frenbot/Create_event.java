@@ -166,7 +166,7 @@ public class Create_event extends AppCompatActivity {
                                     setResult(RESULT_OK, intent2);
 
                                     Constants.intentFlag = "event";
-                                    PushNotification pushNotification = new PushNotification(new NotificationData(event_nam, event_des), TOPIC);
+                                    PushNotification pushNotification = new PushNotification(new NotificationData(event_nam + "(New Event)", event_des), TOPIC);
                                     sendNotification(pushNotification);
 
                                     finish();
